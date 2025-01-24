@@ -5,6 +5,14 @@ import { ParaPortrait } from './ParaPortrait';
 import { generateParaImage, removeBg } from '../utils/api';
 import { Location, Experience } from '../types';
 
+interface LocationState {
+  tags: string[];
+  experiences: Experience[];
+  location: Location;
+  paraName: string;         // Added
+  generatedContent: string; // Added
+}
+
 export const ImageGeneration: React.FC = () => {
   const [userImage, setUserImage] = useState<File | null>(null);
   const [bgRemovedImage, setBgRemovedImage] = useState<string>('');
@@ -15,17 +23,18 @@ export const ImageGeneration: React.FC = () => {
   
   const navigate = useNavigate();
   const location = useLocation();
-  const state = location.state as { 
-    tags: string[],
-    experiences: Experience[],
-    location: Location 
-  } | null;
+  const state = location.state as LocationState | null;
 
   useEffect(() => {
     if (!state) {
       navigate('/');
     }
   }, [state, navigate]);
+
+  useEffect(() => {
+    const preloadFrame = new Image();
+    preloadFrame.src = '/frames/Frame_2.png';
+  }, []);
 
   const generateScene = async () => {
     if (!state) return;
@@ -88,15 +97,14 @@ export const ImageGeneration: React.FC = () => {
       if (navigator.share) {
         await navigator.share({
           files: [file],
-          title: 'My Para Portrait',
-          text: 'Check out my para portrait from I Am Kolkata!'
+          title: `${state?.paraName || 'My Para'} Portrait`,
+          text: `Check out my para portrait from I Am Kolkata!`
         });
       } else {
         throw new Error('Sharing not supported on this device');
       }
     } catch (error: any) {
       console.error('Error sharing:', error);
-      // Fallback to download if sharing fails
       handleDownload();
     }
   };
@@ -165,6 +173,8 @@ export const ImageGeneration: React.FC = () => {
                 <ParaPortrait
                   bgRemovedImage={bgRemovedImage}
                   paraSceneImage={paraSceneImage}
+                  paraName={state?.paraName || 'My Para'}
+                  paraDescription={state?.generatedContent || 'A beautiful corner of Kolkata'}
                   onImageGenerated={setFinalImage}
                 />
               )}

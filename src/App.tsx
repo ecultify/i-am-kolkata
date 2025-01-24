@@ -21,7 +21,7 @@ function MainPage() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const navigate = useNavigate();
-  
+
   const {
     location,
     paraName,
@@ -117,19 +117,21 @@ function MainPage() {
 
   const handleCreateImage = () => {
     setShowSuccessModal(false); // Also close modal when navigating
-    navigate('/image-generation', { 
-      state: { 
+    navigate('/image-generation', {
+      state: {
         tags: selectedTags,
         experiences: experiences.filter(exp => exp.content.trim().length > 0),
-        location 
+        location,
+        paraName,           
+        generatedContent
       }
     });
   };
 
-  const canSave = 
-    location.area && 
-    paraName && 
-    generatedContent && 
+  const canSave =
+    location.area &&
+    paraName &&
+    generatedContent &&
     experiences.some(exp => exp.content.trim().length > 0);
 
   return (
@@ -137,10 +139,10 @@ function MainPage() {
       {!user && <Auth />}
       <OnboardingModal />
       <Header />
-      
+
       <main className="container mx-auto px-4 py-20">
         <ProgressBar />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Panel */}
           <div className="lg:sticky lg:top-20 h-auto lg:h-[calc(100vh-5rem)] overflow-y-auto scrollbar-container space-y-6">
@@ -148,7 +150,7 @@ function MainPage() {
             <ParaNameInput />
             <ExperienceInputs />
             <GeneratedContent />
-            
+
             <div className="flex space-x-4 lg:sticky bottom-0 bg-gray-100 p-4">
               <button
                 onClick={handleSave}
@@ -160,7 +162,7 @@ function MainPage() {
                 <Save className="w-5 h-5" />
                 <span>Save Entry</span>
               </button>
-              
+
               <button
                 onClick={clearForm}
                 className="flex items-center justify-center space-x-2 bg-gray-200 
@@ -181,7 +183,7 @@ function MainPage() {
       </main>
 
       {showSuccessModal && (
-        <SuccessModal 
+        <SuccessModal
           onClose={() => setShowSuccessModal(false)}
           onMaybeLater={handleMaybeLater}
           onCreateImage={handleCreateImage}
