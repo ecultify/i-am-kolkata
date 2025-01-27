@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload, Download, Share2, Loader2, Image as ImageIcon } from 'lucide-react';
-import { ParaPortrait } from './ParaPortrait';
-import { generateParaImage, removeBg } from '../utils/api';
+import { generateParaImage, removeBg, uploadToImgBB, ShotstackService } from '../utils/api';
 import { Location, Experience } from '../types';
+import { ShotstackMergeFields } from '../types/shotstack';
 
 interface LocationState {
   tags: string[];
   experiences: Experience[];
   location: Location;
-  paraName: string;         // Added
-  generatedContent: string; // Added
+  paraName: string;
+  generatedContent: string;
 }
 
 export const ImageGeneration: React.FC = () => {
   const [userImage, setUserImage] = useState<File | null>(null);
-  const [bgRemovedImage, setBgRemovedImage] = useState<string>('');
-  const [paraSceneImage, setParaSceneImage] = useState<string>('');
   const [finalImage, setFinalImage] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [processingStep, setProcessingStep] = useState<string>('');
   
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,26 +30,99 @@ export const ImageGeneration: React.FC = () => {
     }
   }, [state, navigate]);
 
-  useEffect(() => {
-    const preloadFrame = new Image();
-    preloadFrame.src = '/frames/Frame_2.png';
-  }, []);
+  const applyTranslucentMask = async (imageUrl: string): Promise<string> => {
+    try {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = imageUrl;
+      });
 
-  const generateScene = async () => {
-    if (!state) return;
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      
+      if (!ctx) throw new Error('Could not get canvas context');
+
+      // Draw original image
+      ctx.drawImage(img, 0, 0);
+      
+      // Apply translucent white overlay with 0.7 opacity
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'; // 0.3 opacity = 0.7 transparency
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      return canvas.toDataURL('image/png');
+    } catch (error) {
+      console.error('Error applying mask:', error);
+      throw new Error('Failed to apply translucent mask');
+    }
+  };
+
+  const generateScene = async (): Promise<string> => {
+    if (!state) throw new Error('No state available');
     
     try {
-      setLoading(true);
+      setProcessingStep('Generating para scene...');
       const sceneImage = await generateParaImage(
         state.tags,
         state.experiences,
         state.location
       );
-      setParaSceneImage(sceneImage);
+      
+      setProcessingStep('Processing scene...');
+      const maskedScene = await applyTranslucentMask(sceneImage);
+      
+      setProcessingStep('Optimizing scene...');
+      const maskedSceneUrl = await uploadToImgBB(maskedScene);
+      return maskedSceneUrl;
     } catch (error: any) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
+      throw new Error('Failed to generate para scene: ' + error.message);
+    }
+  };
+
+  const processUserImage = async (file: File): Promise<string> => {
+    try {
+      setProcessingStep('Removing background...');
+      const removedBgImage = await removeBg(file);
+      
+      setProcessingStep('Optimizing portrait...');
+      // Convert blob URL to base64
+      const response = await fetch(removedBgImage);
+      const blob = await response.blob();
+      
+      const base64 = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(blob);
+      });
+      
+      const userImageUrl = await uploadToImgBB(base64);
+      return userImageUrl;
+    } catch (error: any) {
+      throw new Error('Failed to process user image: ' + error.message);
+    }
+  };
+
+  const generateFinalPortrait = async (bgImageUrl: string, userImageUrl: string) => {
+    if (!state) throw new Error('No state available');
+
+    try {
+      setProcessingStep('Creating final composition...');
+      const mergeFields: ShotstackMergeFields = {
+        bgImage: bgImageUrl,
+        userImage: userImageUrl,
+        paraName: state.paraName,
+        description: state.generatedContent,
+        pincode: state.location.pincode
+      };
+
+      const finalImageUrl = await ShotstackService.renderParaPortrait(mergeFields);
+      setFinalImage(finalImageUrl);
+    } catch (error: any) {
+      throw new Error('Failed to generate final portrait: ' + error.message);
     }
   };
 
@@ -63,16 +135,19 @@ export const ImageGeneration: React.FC = () => {
       setError(null);
       setUserImage(file);
 
-      // First generate the para scene
-      await generateScene();
+      // Generate and process all images in parallel
+      const [bgImageUrl, userImageUrl] = await Promise.all([
+        generateScene(),
+        processUserImage(file)
+      ]);
 
-      // Then remove background from uploaded image
-      const processedImage = await removeBg(file);
-      setBgRemovedImage(processedImage);
+      // Generate final composition
+      await generateFinalPortrait(bgImageUrl, userImageUrl);
     } catch (error: any) {
       setError(error.message);
     } finally {
       setLoading(false);
+      setProcessingStep('');
     }
   };
 
@@ -169,34 +244,31 @@ export const ImageGeneration: React.FC = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              {bgRemovedImage && paraSceneImage && (
-                <ParaPortrait
-                  bgRemovedImage={bgRemovedImage}
-                  paraSceneImage={paraSceneImage}
-                  paraName={state?.paraName || 'My Para'}
-                  paraDescription={state?.generatedContent || 'A beautiful corner of Kolkata'}
-                  onImageGenerated={setFinalImage}
-                />
-              )}
-
               {finalImage && (
-                <div className="flex justify-center space-x-4">
-                  <button
-                    onClick={handleDownload}
-                    className="flex items-center space-x-2 bg-rose-600 hover:bg-rose-700 
-                             text-white py-2 px-4 rounded-md transition-colors"
-                  >
-                    <Download className="w-5 h-5" />
-                    <span>Download</span>
-                  </button>
-                  <button
-                    onClick={handleShare}
-                    className="flex items-center space-x-2 bg-gray-600 hover:bg-gray-700 
-                             text-white py-2 px-4 rounded-md transition-colors"
-                  >
-                    <Share2 className="w-5 h-5" />
-                    <span>Share</span>
-                  </button>
+                <div>
+                  <img 
+                    src={finalImage} 
+                    alt="Final Para Portrait" 
+                    className="w-full rounded-lg shadow-lg"
+                  />
+                  <div className="flex justify-center space-x-4 mt-6">
+                    <button
+                      onClick={handleDownload}
+                      className="flex items-center space-x-2 bg-rose-600 hover:bg-rose-700 
+                               text-white py-2 px-4 rounded-md transition-colors"
+                    >
+                      <Download className="w-5 h-5" />
+                      <span>Download</span>
+                    </button>
+                    <button
+                      onClick={handleShare}
+                      className="flex items-center space-x-2 bg-gray-600 hover:bg-gray-700 
+                               text-white py-2 px-4 rounded-md transition-colors"
+                    >
+                      <Share2 className="w-5 h-5" />
+                      <span>Share</span>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -204,9 +276,9 @@ export const ImageGeneration: React.FC = () => {
 
           {loading && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white p-6 rounded-lg shadow-xl flex items-center space-x-4">
+              <div className="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center space-y-4">
                 <Loader2 className="w-6 h-6 animate-spin text-rose-600" />
-                <p>Processing your image...</p>
+                <p className="text-lg font-medium">{processingStep}</p>
               </div>
             </div>
           )}
