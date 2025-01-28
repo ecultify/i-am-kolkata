@@ -6,7 +6,6 @@ import { Location, Experience } from '../types';
 import { ShotstackMergeFields } from '../types/shotstack';
 
 interface LocationState {
-  tags: string[];
   experiences: Experience[];
   location: Location;
   paraName: string;
@@ -47,11 +46,8 @@ export const ImageGeneration: React.FC = () => {
       
       if (!ctx) throw new Error('Could not get canvas context');
 
-      // Draw original image
       ctx.drawImage(img, 0, 0);
-      
-      // Apply translucent white overlay with 0.7 opacity
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'; // 0.3 opacity = 0.7 transparency
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       return canvas.toDataURL('image/png');
@@ -66,9 +62,14 @@ export const ImageGeneration: React.FC = () => {
     
     try {
       setProcessingStep('Generating para scene...');
+      
+      // Filter out empty experiences and extract unique tags
+      const validExperiences = state.experiences.filter(exp => exp?.content && exp.content.trim() !== '');
+      const uniqueTags = Array.from(new Set(validExperiences.map(exp => exp.tag).filter(Boolean)));
+      
       const sceneImage = await generateParaImage(
-        state.tags,
-        state.experiences,
+        uniqueTags as string[],
+        validExperiences,
         state.location
       );
       
@@ -89,7 +90,6 @@ export const ImageGeneration: React.FC = () => {
       const removedBgImage = await removeBg(file);
       
       setProcessingStep('Optimizing portrait...');
-      // Convert blob URL to base64
       const response = await fetch(removedBgImage);
       const blob = await response.blob();
       
@@ -111,11 +111,18 @@ export const ImageGeneration: React.FC = () => {
 
     try {
       setProcessingStep('Creating final composition...');
+      
+      // Create a description that combines experiences for a richer portrait
+      const validExperiences = state.experiences
+        .filter(exp => exp?.content && exp.content.trim() !== '')
+        .map(exp => exp.content.trim())
+        .join('. ');
+
       const mergeFields: ShotstackMergeFields = {
         bgImage: bgImageUrl,
         userImage: userImageUrl,
         paraName: state.paraName,
-        description: state.generatedContent,
+        description: validExperiences || state.generatedContent, // Use experiences if available, fall back to generated content
         pincode: state.location.pincode
       };
 
@@ -137,14 +144,31 @@ export const ImageGeneration: React.FC = () => {
 
       // Generate and process all images in parallel
       const [bgImageUrl, userImageUrl] = await Promise.all([
-        generateScene(),
-        processUserImage(file)
+        generateScene().catch(error => {
+          throw new Error(`Failed to generate scene: ${error.message}`);
+        }),
+        processUserImage(file).catch(error => {
+          throw new Error(`Failed to process user image: ${error.message}`);
+        })
       ]);
 
       // Generate final composition
       await generateFinalPortrait(bgImageUrl, userImageUrl);
     } catch (error: any) {
-      setError(error.message);
+      let errorMessage = 'Failed to create portrait. ';
+      
+      if (error.message.includes('ETIMEDOUT')) {
+        errorMessage += 'Connection timed out. Please check your internet connection and try again.';
+      } else if (error.message.includes('Failed to process user image')) {
+        errorMessage += 'There was an issue processing your photo. Please try a different photo.';
+      } else if (error.message.includes('Failed to generate scene')) {
+        errorMessage += 'There was an issue creating your para scene. Please try again.';
+      } else {
+        errorMessage += error.message || 'Please try again.';
+      }
+      
+      setError(errorMessage);
+      console.error('Image generation error:', error);
     } finally {
       setLoading(false);
       setProcessingStep('');

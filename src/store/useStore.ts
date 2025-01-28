@@ -47,21 +47,37 @@ export const useStore = create<State>((set) => ({
   setTags: (tags) => set({ tags }),
   
   addSelectedTag: (tag) => 
-    set((state) => ({
-      selectedTags: state.selectedTags.length < 3 
-        ? [...state.selectedTags, tag]
-        : state.selectedTags
-    })),
+    set((state) => {
+      const emptyIndex = state.experiences.findIndex(exp => !exp?.content || exp.content.trim() === '');
+      const targetIndex = emptyIndex !== -1 ? emptyIndex : state.experiences.length;
+      
+      if (targetIndex >= 3) return state;
+      
+      const newExperiences = [...state.experiences];
+      // Ensure tag is always defined
+      newExperiences[targetIndex] = { content: tag, tag: tag } as Experience;
+      
+      return {
+        ...state,
+        selectedTags: [...state.selectedTags, tag],
+        experiences: newExperiences
+      };
+    }),
     
   removeSelectedTag: (tag) =>
-    set((state) => ({
-      selectedTags: state.selectedTags.filter((t) => t !== tag),
-      experiences: state.experiences.map(exp => 
-        exp.tag === tag ? { ...exp, tag: undefined } : exp
-      )
-    })),
+    set((state) => {
+      const newExperiences = state.experiences.map(exp => 
+        exp?.tag === tag ? { content: '', tag: '' } as Experience : exp
+      );
+      
+      return {
+        ...state,
+        selectedTags: state.selectedTags.filter((t) => t !== tag),
+        experiences: newExperiences
+      };
+    }),
     
-  setExperience: (index, content, tag) =>
+  setExperience: (index, content, tag = '') =>
     set((state) => {
       const newExperiences = [...state.experiences];
       const existingExp = newExperiences[index];
@@ -86,10 +102,10 @@ export const useStore = create<State>((set) => ({
     
   clearForm: () => set((state) => ({ 
     ...initialState,
-    location: state.location, // Keep the current location
-    tags: state.tags, // Keep available tags for the location
-    entries: state.entries, // Keep saved entries
-    user: state.user // Keep user authentication state
+    location: state.location,
+    tags: state.tags,
+    entries: state.entries,
+    user: state.user
   })),
 
   setUser: (user) => set({ user })

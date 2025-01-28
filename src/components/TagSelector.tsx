@@ -15,6 +15,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ hideTitle = false }) =
     location,
     tags,
     selectedTags,
+    experiences,
     setTags,
     addSelectedTag,
     removeSelectedTag
@@ -27,7 +28,6 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ hideTitle = false }) =
         setError(null);
         try {
           const newTags = await fetchTags(location.pincode);
-          // Ensure tags are unique before setting them
           const uniqueTags = Array.from(new Set(newTags));
           setTags(uniqueTags);
         } catch (err) {
@@ -40,6 +40,9 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ hideTitle = false }) =
 
     loadTags();
   }, [location.pincode, setTags]);
+
+  // Find next available slot for a new tag
+  const canAddMore = experiences.filter(exp => exp?.content && exp.content.trim() !== '').length < 3;
 
   return (
     <div>
@@ -63,7 +66,6 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ hideTitle = false }) =
         </p>
       ) : (
         <div className="flex flex-wrap gap-2">
-          {/* Use index as part of the key to ensure uniqueness */}
           {tags.map((tag, index) => {
             const isSelected = selectedTags.includes(tag);
             const uniqueKey = `${tag}-${index}`;
@@ -71,13 +73,13 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ hideTitle = false }) =
               <button
                 key={uniqueKey}
                 onClick={() => isSelected ? removeSelectedTag(tag) : addSelectedTag(tag)}
-                disabled={!isSelected && selectedTags.length >= 3}
+                disabled={!isSelected && !canAddMore}
                 className={`group relative flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-sm
                            transition-all duration-200 ${
                              isSelected
                                ? 'bg-rose-600 text-white hover:bg-rose-700'
                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                           } ${!isSelected && selectedTags.length >= 3 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                           } ${!isSelected && !canAddMore ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {isSelected ? (
                   <X className="w-3.5 h-3.5 flex-shrink-0" />
@@ -91,32 +93,9 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ hideTitle = false }) =
         </div>
       )}
 
-      {selectedTags.length > 0 && (
-        <div className="mt-4 border-t pt-3">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-sm font-medium text-gray-700">
-              Selected Tags ({selectedTags.length}/3)
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {selectedTags.map((tag, index) => (
-              <div
-                key={`selected-${tag}-${index}`}
-                className="flex items-center space-x-1 px-2.5 py-1 rounded-full 
-                         bg-rose-50 text-rose-700 text-sm border border-rose-200"
-              >
-                <span className="truncate max-w-[200px]">{tag}</span>
-                <button
-                  onClick={() => removeSelectedTag(tag)}
-                  className="p-0.5 hover:bg-rose-100 rounded-full transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <div className="mt-4 text-sm text-gray-500">
+        Click a tag to add it to your para description. You can edit the text after adding.
+      </div>
     </div>
   );
 };

@@ -2,6 +2,32 @@ import OpenAI from 'openai';
 import { Location, Experience } from '../types';
 import { ShotstackRenderResponse, ShotstackStatusResponse, ShotstackMergeFields } from '../types/shotstack';
 
+interface ProcessingConfig {
+  maxAttempts: number;
+  timeouts: {
+    request: number;
+    processing: number;
+    render: number;
+  };
+  intervals: {
+    initial: number;
+    max: number;
+  };
+  fetchOptions: {
+    mode: 'cors';
+    cache: 'no-cache';
+    credentials: 'same-origin';
+    redirect: 'follow';
+    referrerPolicy: 'no-referrer';
+  };
+}
+
+interface ImageValidationResult {
+  isValid: boolean;
+  directUrl?: string;
+  error?: string;
+}
+
 // Environment variable validation
 const requiredEnvVars = {
   OPENAI_API_KEY: import.meta.env.VITE_OPENAI_API_KEY,
@@ -10,12 +36,10 @@ const requiredEnvVars = {
   IMGBB_API_KEY: import.meta.env.VITE_IMGBB_API_KEY
 } as const;
 
-// Validate all required environment variables
 Object.entries(requiredEnvVars).forEach(([key, value]) => {
   if (!value) throw new Error(`Missing required environment variable: ${key}`);
 });
 
-// Service configuration
 const CONFIG = {
   openai: new OpenAI({
     apiKey: requiredEnvVars.OPENAI_API_KEY,
@@ -27,17 +51,20 @@ const CONFIG = {
   },
   shotstack: {
     apiKey: requiredEnvVars.SHOTSTACK_API_KEY,
-    endpoint: 'https://api.shotstack.io/v1',
     templateId: requiredEnvVars.SHOTSTACK_TEMPLATE_ID,
-    ingestEndpoint: 'https://api.shotstack.io/ingest/v1'
+    endpoints: {
+      render: '/shotstack-api/templates/render',
+      renderStatus: '/shotstack-api/render',
+      ingest: '/shotstack-api/ingest/sources',
+      ingestStatus: '/shotstack-api/ingest/sources'
+    }
   },
   imgbb: {
     apiKey: requiredEnvVars.IMGBB_API_KEY,
-    endpoint: 'https://api.imgbb.com/1/upload'
+    endpoint: '/imgbb-api/upload'
   }
 } as const;
 
-// Utility function for handling API errors
 class APIError extends Error {
   constructor(message: string, public readonly context: Record<string, any> = {}) {
     super(message);
@@ -45,10 +72,62 @@ class APIError extends Error {
   }
 }
 
-// Utility for type-safe delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Background Removal Service
+// Helper function to validate and transform image URLs
+const validateImageUrl = async (url: string): Promise<ImageValidationResult> => {
+  try {
+    // Transform ImgBB share URLs to direct URLs
+    if (url.includes('ibb.co/') && !url.includes('i.ibb.co/')) {
+      const parts = url.split('/');
+      const id = parts[parts.length - 1];
+      if (!id.includes('.')) {
+        return {
+          isValid: false,
+          error: 'Invalid ImgBB URL format'
+        };
+      }
+      url = `https://i.ibb.co/${id}`;
+    }
+
+    // Validate URL format
+    if (!url.match(/^https:\/\/i\.ibb\.co\/.+\.(jpg|jpeg|png|gif)$/i)) {
+      return {
+        isValid: false,
+        error: 'Invalid image URL format'
+      };
+    }
+
+    try {
+      await fetch(url, { 
+        method: 'HEAD',
+        mode: 'no-cors', // This means we can't actually check response.ok
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+      
+      // If we get here, the fetch didn't throw, so we consider it valid
+      return {
+        isValid: true,
+        directUrl: url
+      };
+    } catch (fetchError) {
+      return {
+        isValid: false,
+        error: 'Image URL not accessible'
+      };
+    }
+
+  } catch (error) {
+    return {
+      isValid: false,
+      error: error instanceof Error ? error.message : 'Failed to validate image URL'
+    };
+  }
+};
+
 export const removeBg = async (imageFile: File): Promise<string> => {
   const formData = new FormData();
   formData.append('image_file', imageFile);
@@ -57,7 +136,11 @@ export const removeBg = async (imageFile: File): Promise<string> => {
   try {
     const response = await fetch(CONFIG.bgRemove.apiUrl, {
       method: 'POST',
-      headers: { 'X-Api-Key': CONFIG.bgRemove.apiKey },
+      headers: { 
+        'X-Api-Key': CONFIG.bgRemove.apiKey,
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      },
       body: formData,
     });
 
@@ -76,7 +159,6 @@ export const removeBg = async (imageFile: File): Promise<string> => {
   }
 };
 
-// Image Compression and Upload Service
 export const uploadToImgBB = async (imageData: string, retries = 3): Promise<string> => {
   const compressImage = async (base64: string): Promise<string> => {
     const img = new Image();
@@ -86,7 +168,7 @@ export const uploadToImgBB = async (imageData: string, retries = 3): Promise<str
     await new Promise((resolve, reject) => {
       img.onload = resolve;
       img.onerror = reject;
-      img.src = `data:image/jpeg;base64,${base64}`;
+      img.src = base64.startsWith('data:') ? base64 : `data:image/jpeg;base64,${base64}`;
     });
 
     const maxDim = 1024;
@@ -106,34 +188,48 @@ export const uploadToImgBB = async (imageData: string, retries = 3): Promise<str
         : imageData;
 
       const compressedImage = await compressImage(base64Image);
+      
       const formData = new FormData();
+      formData.append('key', CONFIG.imgbb.apiKey);
       formData.append('image', compressedImage);
 
-      const response = await fetch(`${CONFIG.imgbb.endpoint}?key=${CONFIG.imgbb.apiKey}`, {
+      const response = await fetch(`${CONFIG.imgbb.endpoint}`, {
         method: 'POST',
         body: formData,
+        headers: {
+          'Accept': 'application/json',
+        }
       });
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new APIError('ImgBB upload failed', {
-          status: response.status,
-          error: data.error
-        });
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('ImgBB error:', errorText);
+        throw new Error(`Upload failed: ${response.statusText}`);
       }
 
-      return data.data.url;
+      const data = await response.json();
+      
+      if (!data.success) {
+        throw new Error('Upload failed: ' + (data.error?.message || 'Unknown error'));
+      }
+
+      const imageUrl = data.data?.url;
+      if (!imageUrl) {
+        throw new Error('No image URL in response');
+      }
+
+      // Return without validation
+      return imageUrl.replace(/^https?:\/\/ibb.co\//, 'https://i.ibb.co/');
     } catch (error) {
+      console.error(`Attempt ${attempt + 1} failed:`, error);
       if (attempt === retries - 1) throw error;
       await delay(Math.pow(2, attempt) * 1000);
     }
   }
 
-  throw new APIError('Maximum retry attempts reached');
+  throw new Error('Maximum retry attempts reached');
 };
 
-// Tag Generation Service
 export const fetchTags = async (pincode: string): Promise<string[]> => {
   try {
     const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
@@ -157,19 +253,20 @@ export const fetchTags = async (pincode: string): Promise<string[]> => {
       model: "gpt-3.5-turbo",
       messages: [{
         role: "system",
-        content: `Generate 10 unique, location-specific tags for ${District}, ${State} (Pincode: ${pincode}).
+        content: `Generate 10 unique, location-specific landmark names or cultural features for ${District}, ${State} (Pincode: ${pincode}).
                  Focus on actual local elements like:
-                 - Popular local food spots and dishes specific to this area
-                 - Cultural landmarks and institutions in this district
-                 - Community gathering places in this neighborhood
-                 - Local festivals and events celebrated here
-                 - Neighborhood-specific activities and traditions
+                 - Specific landmark names and places (e.g., "Raigarh Fort", "Khandoba Temple")
+                 - Cultural institutions or gathering spots (e.g., "Ganesh Talkies", "College Square")
+                 - Famous local establishments (e.g., "Paramount Sherbets", "Indian Coffee House")
+                 - Historic or heritage sites
+                 - Important community spaces
                  
-                 Format: Return ONLY a comma-separated list of tags, nothing else.
-                 Example: "Juhu Beach, Prithvi Theatre, Linking Road Shopping, Carter Road Jogging"
+                 Format: Return ONLY a comma-separated list of specific place names, nothing else.
+                 Each name should be 1-3 words long and be an actual place name, not a description.
                  
-                 Each tag must be a real, verifiable place or activity in this specific area.
-                 Do not include generic terms or made-up places.`
+                 Example format: "Victoria Memorial, College Street, Millennium Park, Princep Ghat"
+                 
+                 Important: Return only real, verifiable place names. No generic descriptions.`
       }],
       temperature: 0.7,
     });
@@ -185,24 +282,24 @@ export const fetchTags = async (pincode: string): Promise<string[]> => {
   }
 };
 
-// Content Generation Service
 export const generateContent = async (
   paraName: string,
-  tags: string[],
-  experiences: { tag: string; content: string }[]
+  _tags: string[],
+  experiences: Experience[]
 ): Promise<string> => {
   try {
     const validExperiences = experiences.filter(exp => exp.content.trim().length > 0);
-    const experienceText = validExperiences.map(exp => exp.content.trim()).join('\n');
-
-    const prompt = tags.length > 0
-      ? `Create a brief 40-50 word description of "${paraName}" that resonates with Indian readers.
-         Include relatable elements like local chai spots, evening addas, festivals, or street food.
-         Base it on these tags and experiences:\n\nTags: ${tags.join(', ')}\n\n
-         Experiences:\n${experienceText}`
-      : `Create a brief 40-50 word description of "${paraName}" that resonates with Indian readers.
-         Include relatable elements like local chai spots, evening addas, festivals, or street food.
-         Base it on these experiences:\n\n${experienceText}`;
+    
+    const prompt = `Create a brief 40-50 word description of "${paraName}" based on these local experiences:
+                   ${validExperiences.map(exp => `- ${exp.content.trim()}`).join('\n')}
+                   
+                   Guidelines:
+                   - Focus on capturing the essence of the community and its unique character
+                   - Highlight the specific places and experiences mentioned
+                   - Use warm, inclusive language that resonates with Indian readers
+                   - Include local cultural elements when relevant
+                   
+                   Keep it personal and authentic to the neighborhood experience.`;
 
     const response = await CONFIG.openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -218,32 +315,31 @@ export const generateContent = async (
   }
 };
 
-// Para Image Generation Service
 export const generateParaImage = async (
-  tags: string[],
+  _tags: string[],
   experiences: Experience[],
   location: Location
 ): Promise<string> => {
   try {
     const validExperiences = experiences.filter(exp => exp.content.trim().length > 0);
-    const experienceDescriptions = validExperiences.map(exp => exp.content.trim()).join('. ');
     
     const prompt = `Create a photorealistic digital art of a vibrant Indian neighborhood scene in ${location.area}, Kolkata.
-                   Key elements to include:
-                   ${tags.map(tag => `- ${tag}`).join('\n')}
-                   
-                   Scene details from local experiences:
-                   ${experienceDescriptions}
-                   
-                   Style guidelines:
-                   - Warm, inviting colors that capture the essence of Kolkata
-                   - Include traditional Bengali architecture
-                   - Show street life and community interaction
-                   - Natural lighting with golden hour atmosphere
-                   - Detailed textures and cultural elements
+                   Featured landmarks and elements:
+                   ${validExperiences.map(exp => `- ${exp.content}`).join('\n')}
+
+                   Scene requirements:
+                   - Create a balanced composition showing the specific landmarks mentioned
+                   - Include authentic Bengali architectural details
+                   - Show natural community interaction and street life
+                   - Use warm, golden-hour lighting
+                   - Include cultural elements specific to Kolkata
                    - Maintain photorealistic quality
-                   
-                   Important: Create a balanced, well-composed scene that would work well as a background.`;
+                   - Compose the scene to work well as a portrait background
+
+                   Style notes:
+                   - Rich, warm colors that capture Kolkata's essence
+                   - Focus on architectural accuracy for the mentioned landmarks
+                   - Natural street atmosphere with subtle environmental details`;
 
     const response = await CONFIG.openai.images.generate({
       model: "dall-e-3",
@@ -266,160 +362,324 @@ export const generateParaImage = async (
   }
 };
 
-// Shotstack Service
 export class ShotstackService {
+  private static readonly CONFIG: ProcessingConfig = {
+    maxAttempts: 3,
+    timeouts: {
+      request: 30000,
+      processing: 45000,
+      render: 60000
+    },
+    intervals: {
+      initial: 2000,
+      max: 10000
+    },
+    fetchOptions: {
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer'
+    }
+  };
+
   private static readonly headers = {
     'x-api-key': CONFIG.shotstack.apiKey,
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache'
   };
 
-  private static async ingestUrl(url: string): Promise<string> {
+  private static readonly RATE_LIMIT = {
+    requestsPerSecond: 1,
+    minRetryDelay: 2000,
+    maxRetryDelay: 30000,
+    maxAttempts: 5
+  };
+
+  private static async rateLimitDelay(): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, 1000));
+  }
+
+  private static getFetchOptions(options: RequestInit = {}): RequestInit {
+    return {
+      ...this.CONFIG.fetchOptions,
+      ...options,
+      headers: {
+        ...this.headers,
+        ...(options.headers || {})
+      }
+    };
+  }
+
+  private static async processImageLocally(
+    bgImage: string, 
+    userImage: string, 
+    mergeFields: ShotstackMergeFields
+  ): Promise<string> {
     try {
-      console.log('Ingesting URL:', url);
+      console.log('Starting local image processing...');
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas context not available');
 
-      const response = await fetch(`${CONFIG.shotstack.ingestEndpoint}/sources`, {
+      canvas.width = 1080;
+      canvas.height = 1080;
+
+      // Load images with timeout
+      const loadImage = async (url: string): Promise<HTMLImageElement> => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          const timeout = setTimeout(() => reject(new Error('Image load timeout')), 30000);
+          img.onload = () => {
+            clearTimeout(timeout);
+            resolve(img);
+          };
+          img.onerror = () => {
+            clearTimeout(timeout);
+            reject(new Error('Image load failed'));
+          };
+          img.src = url;
+        });
+      };
+
+      console.log('Loading images...');
+      // Load both images in parallel with progress tracking
+      const [bgImg, userImg] = await Promise.all([
+        loadImage(bgImage).then(img => {
+          console.log('Background image loaded');
+          return img;
+        }),
+        loadImage(userImage).then(img => {
+          console.log('User image loaded');
+          return img;
+        })
+      ]);
+
+      console.log('Processing background...');
+      // Draw background
+      ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+
+      // Add translucent overlay
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      console.log('Processing user image...');
+      // Calculate user image dimensions
+      const scale = Math.min(
+        (canvas.width * 0.8) / userImg.width,
+        (canvas.height * 0.8) / userImg.height
+      );
+      const x = (canvas.width - userImg.width * scale) / 2;
+      const y = (canvas.height - userImg.height * scale) / 2;
+
+      // Draw user image
+      ctx.drawImage(userImg, x, y, userImg.width * scale, userImg.height * scale);
+
+      console.log('Adding text overlays...');
+      // Add text overlays
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // Para name
+      ctx.font = 'bold 56px Arial';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
+      ctx.fillText(mergeFields.paraName || 'Untitled Para', canvas.width / 2, 80);
+
+      // Description
+      ctx.font = '28px Arial';
+      ctx.shadowBlur = 4;
+      ctx.shadowOffsetX = 1;
+      ctx.shadowOffsetY = 1;
+      
+      const wrapText = (text: string, maxWidth: number, lineHeight: number): void => {
+        const words = text.split(' ');
+        let line = '';
+        let y = canvas.height - 180;
+
+        words.forEach(word => {
+          const testLine = line + word + ' ';
+          const metrics = ctx.measureText(testLine);
+          
+          if (metrics.width > maxWidth && line !== '') {
+            ctx.fillText(line, canvas.width / 2, y);
+            line = word + ' ';
+            y += lineHeight;
+          } else {
+            line = testLine;
+          }
+        });
+        
+        ctx.fillText(line, canvas.width / 2, y);
+      };
+
+      wrapText(mergeFields.description || '', canvas.width - 120, 36);
+
+      console.log('Finalizing image processing...');
+      return canvas.toDataURL('image/png');
+    } catch (error) {
+      console.error('Local processing error:', error);
+      throw new APIError('Failed to process image locally', { cause: error });
+    }
+  }
+
+  private static async ingestUrl(url: string): Promise<string> {
+    const validationResult = await validateImageUrl(url);
+    if (!validationResult.isValid) {
+      throw new APIError('Invalid image URL', { error: validationResult.error });
+    }
+  
+    const validUrl = validationResult.directUrl!;
+    try {
+      const response = await fetch(CONFIG.shotstack.endpoints.ingest, {
         method: 'POST',
-        headers: this.headers,
-        body: JSON.stringify({ url })
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ 
+          url: validUrl
+        })
       });
-
+  
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('URL ingestion failed:', errorText);
         throw new APIError('Failed to ingest URL', {
           status: response.status,
-          error: errorText
+          statusText: response.statusText
         });
       }
-
+  
       const data = await response.json();
       const sourceId = data.data?.id;
-
       if (!sourceId) {
         throw new APIError('Invalid source ID response');
       }
-
       return await this.waitForSourceReady(sourceId);
     } catch (error) {
-      console.error('Error in ingestUrl:', error);
-      throw error instanceof APIError ? error : new APIError('URL ingestion failed', { cause: error });
+      console.error('Ingestion error:', error);
+      throw error;
     }
   }
 
-  private static async waitForSourceReady(sourceId: string, maxAttempts = 30): Promise<string> {
-    console.log('Waiting for source processing...', sourceId);
-    
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+  private static async waitForSourceReady(sourceId: string): Promise<string> {
+    let attempts = 0;
+    const maxAttempts = 10;
+    const initialDelay = 1000;
+  
+    while (attempts < maxAttempts) {
       try {
         const response = await fetch(
-          `${CONFIG.shotstack.ingestEndpoint}/sources/${sourceId}`,
-          { headers: this.headers }
-        );
-
-        if (!response.ok) {
-          throw new APIError('Failed to check source status');
-        }
-
-        const data = await response.json();
-        console.log('Source status response:', data);
-        
-        const status = data.data?.attributes?.status;
-        const source = data.data?.attributes?.source;
-
-        console.log(`Source status (attempt ${attempt + 1}):`, status);
-
-        if (status === 'ready' && source) {
-          console.log('Source processing complete:', source);
-          return source;
-        }
-
-        if (status === 'failed') {
-          const message = data.data?.attributes?.error || 'Source processing failed';
-          throw new APIError(message);
-        }
-
-        await delay(3000);
-      } catch (error) {
-        console.error(`Error checking source status (attempt ${attempt + 1}):`, error);
-        if (attempt === maxAttempts - 1) throw error;
-        await delay(3000);
-      }
-    }
-
-    throw new APIError('Source processing timeout');
-  }
-
-  static async renderParaPortrait(mergeFields: ShotstackMergeFields): Promise<string> {
-    try {
-      if (!mergeFields.bgImage || !mergeFields.userImage) {
-        throw new APIError('Missing required image URLs');
-      }
-
-      console.log('Starting para portrait generation...');
-
-      // Process images sequentially to avoid rate limiting
-      console.log('Processing background image...');
-      const bgImageUrl = await this.ingestUrl(mergeFields.bgImage);
-      
-      console.log('Processing user image...');
-      const userImageUrl = await this.ingestUrl(mergeFields.userImage);
-
-      console.log('Successfully processed images:', {
-        background: bgImageUrl,
-        user: userImageUrl
-      });
-
-      // Prepare render payload according to Shotstack API documentation
-      const renderPayload = {
-        id: CONFIG.shotstack.templateId,
-        merge: [
+          `${CONFIG.shotstack.endpoints.ingestStatus}/${sourceId}`,
           {
-            find: "backgroundImage",
-            replace: bgImageUrl
-          },
-          {
-            find: "userImage",
-            replace: userImageUrl
-          },
-          {
-            find: "TEXT_VAR_446",
-            replace: mergeFields.paraName || 'Untitled Para'
-          },
-          {
-            find: "TEXT_VAR_648",
-            replace: mergeFields.description || 'No description provided'
-          },
-          {
-            find: "TEXT_VAR_451",
-            replace: mergeFields.pincode || ''
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json'
+            }
           }
-        ]
-      };
-
-      // Initiate render
-      console.log('Initiating render with payload:', JSON.stringify(renderPayload, null, 2));
-      const renderId = await this.initiateRender(renderPayload);
-      return await this.waitForRenderComplete(renderId);
-    } catch (error) {
-      console.error('Para portrait rendering error:', error);
-      throw error instanceof APIError ? error : new APIError('Failed to render para portrait', { cause: error });
+        );
+  
+        if (!response.ok) {
+          throw new APIError('Failed to check source status', {
+            status: response.status,
+            statusText: response.statusText
+          });
+        }
+  
+        const data = await response.json();
+        
+        // Detailed logging to understand the response structure
+        console.log('DETAILED SOURCE RESPONSE:', JSON.stringify(data, null, 2));
+        console.log('Status:', data.data?.attributes?.status);
+        console.log('Full attributes:', data.data?.attributes);
+  
+        if (!data.data?.attributes) {
+          throw new APIError('Invalid response format', { data });
+        }
+  
+        const { status, source, error } = data.data.attributes;
+  
+        // Log every status check with more details
+        console.log(`Source ${sourceId} status check:`, {
+          status,
+          source: source || '[No source URL yet]',
+          error: error || '[No error]',
+          attempt: attempts + 1
+        });
+  
+        switch (status) {
+          case 'ready':
+            if (source) {
+              return source;
+            }
+            throw new APIError('Source URL missing from ready response');
+  
+          case 'failed':
+            throw new APIError('Source processing failed', {
+              sourceId,
+              error: error || 'Unknown error'
+            });
+  
+          case 'queued':
+          case 'importing':
+            // If we haven't hit max attempts, wait and try again
+            if (attempts < maxAttempts - 1) {
+              const delay = initialDelay * Math.pow(2, attempts);
+              console.log(`Source ${status}, waiting ${delay}ms before retry...`);
+              await new Promise(resolve => setTimeout(resolve, delay));
+              attempts++;
+              continue;
+            }
+            throw new APIError('Source processing timeout', {
+              sourceId,
+              lastStatus: status
+            });
+  
+          default:
+            throw new APIError('Unknown source status', {
+              sourceId,
+              status
+            });
+        }
+      } catch (error) {
+        console.error('Source check error:', error);
+        
+        if (attempts === maxAttempts - 1) {
+          throw error;
+        }
+        
+        const delay = initialDelay * Math.pow(2, attempts);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        attempts++;
+      }
     }
+  
+    throw new APIError('Max attempts reached waiting for source');
   }
-
   private static async initiateRender(payload: any): Promise<string> {
     try {
-      console.log('Initiating render...');
+      await this.rateLimitDelay();
       
-      const response = await fetch(`${CONFIG.shotstack.endpoint}/templates/render`, {
-        method: 'POST',
-        headers: this.headers,
-        body: JSON.stringify(payload),
-      });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), this.CONFIG.timeouts.request);
+
+      const response = await fetch(CONFIG.shotstack.endpoints.render, 
+        this.getFetchOptions({
+          method: 'POST',
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        })
+      );
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Render initiation failed:', errorText);
         throw new APIError('Failed to initiate render', {
           status: response.status,
           error: errorText
@@ -432,23 +692,33 @@ export class ShotstackService {
         throw new APIError('Invalid render response', { data });
       }
 
-      console.log('Render initiated:', data.response.id);
       return data.response.id;
     } catch (error) {
-      console.error('Error initiating render:', error);
       throw error instanceof APIError ? error : new APIError('Render initiation failed', { cause: error });
     }
   }
 
   private static async waitForRenderComplete(renderId: string): Promise<string> {
     console.log('Waiting for render completion...', renderId);
+    let attempts = 0;
+    let interval = this.CONFIG.intervals.initial;
     const maxAttempts = 60;
-    
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+
+    while (attempts < maxAttempts) {
       try {
-        const response = await fetch(`${CONFIG.shotstack.endpoint}/render/${renderId}`, {
-          headers: this.headers,
-        });
+        await this.rateLimitDelay();
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), this.CONFIG.timeouts.request);
+
+        const response = await fetch(
+          `${CONFIG.shotstack.endpoints.renderStatus}/${renderId}`,
+          this.getFetchOptions({
+            signal: controller.signal
+          })
+        );
+
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           throw new APIError('Failed to check render status', {
@@ -458,7 +728,7 @@ export class ShotstackService {
         }
 
         const status: ShotstackStatusResponse = await response.json();
-        console.log(`Render status (attempt ${attempt + 1}):`, status.response.status);
+        console.log(`Render status check ${attempts + 1}/${maxAttempts}: ${status.response.status}`);
 
         switch (status.response.status) {
           case 'ready':
@@ -476,7 +746,9 @@ export class ShotstackService {
           case 'queued':
           case 'rendering':
           case 'fetching':
-            await delay(3000);
+            interval = Math.min(interval * 1.5, this.CONFIG.intervals.max);
+            await new Promise(resolve => setTimeout(resolve, interval));
+            attempts++;
             continue;
           
           default:
@@ -485,29 +757,104 @@ export class ShotstackService {
             });
         }
       } catch (error) {
-        console.error(`Error checking render status (attempt ${attempt + 1}):`, error);
-        if (attempt === maxAttempts - 1) throw error;
-        await delay(3000);
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          console.log('Render status check timed out, retrying...');
+          continue;
+        }
+
+        console.error(`Render status check error (attempt ${attempts + 1}):`, error);
+        
+        if (attempts === maxAttempts - 1) {
+          throw error;
+        }
+        
+        await new Promise(resolve => setTimeout(resolve, this.RATE_LIMIT.minRetryDelay));
+        attempts++;
       }
     }
 
-    throw new APIError('Render timeout');
+    throw new APIError('Render timeout after maximum attempts');
+  }
+
+  public static async renderParaPortrait(mergeFields: ShotstackMergeFields): Promise<string> {
+    if (!mergeFields.bgImage || !mergeFields.userImage) {
+      throw new APIError('Missing required image URLs');
+    }
+
+    let attempts = 0;
+    let lastError: Error | null = null;
+
+    while (attempts < this.CONFIG.maxAttempts) {
+      try {
+        if (lastError?.message.includes('ETIMEDOUT') && attempts > 0) {
+          console.log('Previous timeout errors detected, falling back to local processing...');
+          return await this.processImageLocally(
+            mergeFields.bgImage,
+            mergeFields.userImage,
+            mergeFields
+          );
+        }
+
+        if (attempts === this.CONFIG.maxAttempts - 1) {
+          console.log('Final attempt, using local processing...');
+          return await this.processImageLocally(
+            mergeFields.bgImage,
+            mergeFields.userImage,
+            mergeFields
+          );
+        }
+
+        console.log(`Attempt ${attempts + 1}: Using Shotstack API...`);
+        
+        const images = await Promise.all([
+          this.ingestUrl(mergeFields.bgImage),
+          this.ingestUrl(mergeFields.userImage)
+        ]);
+
+        const renderPayload = {
+          id: CONFIG.shotstack.templateId,
+          merge: [
+            { find: "backgroundImage", replace: images[0] },
+            { find: "userImage", replace: images[1] },
+            { find: "TEXT_VAR_446", replace: mergeFields.paraName || 'Untitled Para' },
+            { find: "TEXT_VAR_648", replace: mergeFields.description || '' },
+            { find: "TEXT_VAR_451", replace: mergeFields.pincode || '' }
+          ]
+        };
+
+        const renderId = await this.initiateRender(renderPayload);
+        return await this.waitForRenderComplete(renderId);
+      } catch (error) {
+        console.error(`Attempt ${attempts + 1} failed:`, error);
+        lastError = error as Error;
+        attempts++;
+
+        if (attempts < this.CONFIG.maxAttempts) {
+          const delay = Math.min(
+            2000 * Math.pow(2, attempts),
+            30000
+          );
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+
+    throw lastError || new APIError('Failed to process image after all attempts');
   }
 }
 
-// Utility function for image dimensions
 function calculateDimensions(width: number, height: number, maxDim: number): { width: number; height: number } {
-  if (width <= maxDim && height <= maxDim) {
-    return { width, height };
-  }
+if (width <= maxDim && height <= maxDim) {
+  return { width, height };
+}
 
-  if (width > height) {
-    const newWidth = maxDim;
-    const newHeight = Math.round((height * maxDim) / width);
-    return { width: newWidth, height: newHeight };
-  } else {
-    const newHeight = maxDim;
-    const newWidth = Math.round((width * maxDim) / height);
-    return { width: newWidth, height: newHeight };
-  }
+if (width > height) {
+  const newWidth = maxDim;
+  const newHeight = Math.round((height * maxDim) / width);
+  return { width: newWidth, height: newHeight };
+} else {
+  const newHeight = maxDim;
+  const newWidth = Math.round((width * maxDim) / height);
+  return { width: newWidth, height: newHeight };
+}
 }

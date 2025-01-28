@@ -29,8 +29,8 @@ export const GeneratedContent: React.FC = () => {
     }
   };
 
-  // Check if there's at least one valid experience (non-empty content)
-  const hasValidExperience = experiences.some(exp => exp.content.trim().length > 0);
+  // Check if there's at least one experience with content
+  const hasValidExperience = experiences.some(exp => exp?.content && exp.content.trim().length > 0);
   
   // Allow generation if there's a para name and at least one valid experience
   const canGenerate = paraName && paraName.trim().length > 0 && hasValidExperience;
