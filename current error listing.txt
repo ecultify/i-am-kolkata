@@ -1,0 +1,2203 @@
+Attempt 1: Using Shotstack API...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe",
+    "attributes": {
+      "id": "zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:48:57.107Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'queued', created: '2025-01-28T05:48:57.107Z'}
+api.ts:608 Source zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 1}
+api.ts:633 Source queued, waiting 1000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x",
+    "attributes": {
+      "id": "zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/QXSshDc/ff896b1445e3.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:48:57.193Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x', owner: '95d6ntb8l6', input: 'https://i.ibb.co/QXSshDc/ff896b1445e3.jpg', status: 'queued', created: '2025-01-28T05:48:57.193Z'}
+api.ts:608 Source zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 1}
+api.ts:633 Source queued, waiting 1000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe",
+    "attributes": {
+      "id": "zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "importing",
+      "created": "2025-01-28T05:48:57.107Z",
+      "updated": "2025-01-28T05:48:58.665Z"
+    }
+  }
+}
+api.ts:598 Status: importing
+api.ts:599 Full attributes: {id: 'zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'importing', created: '2025-01-28T05:48:57.107Z', …}
+api.ts:608 Source zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe status check: {status: 'importing', source: '[No source URL yet]', error: '[No error]', attempt: 2}
+api.ts:633 Source importing, waiting 2000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x",
+    "attributes": {
+      "id": "zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/QXSshDc/ff896b1445e3.jpg",
+      "status": "importing",
+      "created": "2025-01-28T05:48:57.193Z",
+      "updated": "2025-01-28T05:48:59.089Z"
+    }
+  }
+}
+api.ts:598 Status: importing
+api.ts:599 Full attributes: {id: 'zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x', owner: '95d6ntb8l6', input: 'https://i.ibb.co/QXSshDc/ff896b1445e3.jpg', status: 'importing', created: '2025-01-28T05:48:57.193Z', …}
+api.ts:608 Source zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x status check: {status: 'importing', source: '[No source URL yet]', error: '[No error]', attempt: 2}
+api.ts:633 Source importing, waiting 2000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe",
+    "attributes": {
+      "id": "zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "source": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/95d6ntb8l6/zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe/source.jpg",
+      "status": "ready",
+      "width": 577,
+      "height": 433,
+      "created": "2025-01-28T05:48:57.107Z",
+      "updated": "2025-01-28T05:49:00.137Z"
+    }
+  }
+}
+api.ts:598 Status: ready
+api.ts:599 Full attributes: {id: 'zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', source: 'https://shotstack-ingest-api-v1-sources.s3.ap-sout…b8l6/zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe/source.jpg', status: 'ready', …}
+api.ts:608 Source zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe status check: {status: 'ready', source: 'https://shotstack-ingest-api-v1-sources.s3.ap-sout…b8l6/zzz01jjn-q9acj-q8qwp-n2mgw-bv6gpe/source.jpg', error: '[No error]', attempt: 3}
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x",
+    "attributes": {
+      "id": "zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/QXSshDc/ff896b1445e3.jpg",
+      "source": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/95d6ntb8l6/zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x/source.jpg",
+      "status": "ready",
+      "width": 1024,
+      "height": 1024,
+      "created": "2025-01-28T05:48:57.193Z",
+      "updated": "2025-01-28T05:49:01.762Z"
+    }
+  }
+}
+api.ts:598 Status: ready
+api.ts:599 Full attributes: {id: 'zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x', owner: '95d6ntb8l6', input: 'https://i.ibb.co/QXSshDc/ff896b1445e3.jpg', source: 'https://shotstack-ingest-api-v1-sources.s3.ap-sout…b8l6/zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x/source.jpg', status: 'ready', …}
+api.ts:608 Source zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x status check: {status: 'ready', source: 'https://shotstack-ingest-api-v1-sources.s3.ap-sout…b8l6/zzz01jjn-q9af9-y7bnn-xmtgm-ftgf1x/source.jpg', error: '[No error]', attempt: 3}
+api.ts:702 Waiting for render completion... 629f35f3-5263-4275-9bfb-4a981d11838a
+api.ts:731 Render status check 1/60: rendering
+api.ts:731 Render status check 2/60: done
+api.ts:765 Render status check error (attempt 2): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 3/60: done
+api.ts:765 Render status check error (attempt 3): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 4/60: done
+api.ts:765 Render status check error (attempt 4): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 5/60: done
+api.ts:765 Render status check error (attempt 5): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 6/60: done
+api.ts:765 Render status check error (attempt 6): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 7/60: done
+api.ts:765 Render status check error (attempt 7): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 8/60: done
+api.ts:765 Render status check error (attempt 8): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 9/60: done
+api.ts:765 Render status check error (attempt 9): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 10/60: done
+api.ts:765 Render status check error (attempt 10): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 11/60: done
+api.ts:765 Render status check error (attempt 11): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 12/60: done
+api.ts:765 Render status check error (attempt 12): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 13/60: done
+api.ts:765 Render status check error (attempt 13): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 14/60: done
+api.ts:765 Render status check error (attempt 14): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 15/60: done
+api.ts:765 Render status check error (attempt 15): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 16/60: done
+api.ts:765 Render status check error (attempt 16): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 17/60: done
+api.ts:765 Render status check error (attempt 17): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 18/60: done
+api.ts:765 Render status check error (attempt 18): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 19/60: done
+api.ts:765 Render status check error (attempt 19): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 20/60: done
+api.ts:765 Render status check error (attempt 20): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 21/60: done
+api.ts:765 Render status check error (attempt 21): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 22/60: done
+api.ts:765 Render status check error (attempt 22): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 23/60: done
+api.ts:765 Render status check error (attempt 23): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 24/60: done
+api.ts:765 Render status check error (attempt 24): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 25/60: done
+api.ts:765 Render status check error (attempt 25): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 26/60: done
+api.ts:765 Render status check error (attempt 26): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 27/60: done
+api.ts:765 Render status check error (attempt 27): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 28/60: done
+api.ts:765 Render status check error (attempt 28): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 29/60: done
+api.ts:765 Render status check error (attempt 29): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 30/60: done
+api.ts:765 Render status check error (attempt 30): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 31/60: done
+api.ts:765 Render status check error (attempt 31): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 32/60: done
+api.ts:765 Render status check error (attempt 32): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 33/60: done
+api.ts:765 Render status check error (attempt 33): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 34/60: done
+api.ts:765 Render status check error (attempt 34): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 35/60: done
+api.ts:765 Render status check error (attempt 35): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 36/60: done
+api.ts:765 Render status check error (attempt 36): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 37/60: done
+api.ts:765 Render status check error (attempt 37): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 38/60: done
+api.ts:765 Render status check error (attempt 38): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 39/60: done
+api.ts:765 Render status check error (attempt 39): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 40/60: done
+api.ts:765 Render status check error (attempt 40): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 41/60: done
+api.ts:765 Render status check error (attempt 41): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 42/60: done
+api.ts:765 Render status check error (attempt 42): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 43/60: done
+api.ts:765 Render status check error (attempt 43): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 44/60: done
+api.ts:765 Render status check error (attempt 44): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 45/60: done
+api.ts:765 Render status check error (attempt 45): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 46/60: done
+api.ts:765 Render status check error (attempt 46): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 47/60: done
+api.ts:765 Render status check error (attempt 47): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 48/60: done
+api.ts:765 Render status check error (attempt 48): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 49/60: done
+api.ts:765 Render status check error (attempt 49): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 50/60: done
+api.ts:765 Render status check error (attempt 50): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 51/60: done
+api.ts:765 Render status check error (attempt 51): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 52/60: done
+api.ts:765 Render status check error (attempt 52): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 53/60: done
+api.ts:765 Render status check error (attempt 53): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 54/60: done
+api.ts:765 Render status check error (attempt 54): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 55/60: done
+api.ts:765 Render status check error (attempt 55): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 56/60: done
+api.ts:765 Render status check error (attempt 56): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 57/60: done
+api.ts:765 Render status check error (attempt 57): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 58/60: done
+api.ts:765 Render status check error (attempt 58): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 59/60: done
+api.ts:765 Render status check error (attempt 59): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:731 Render status check 60/60: done
+api.ts:765 Render status check error (attempt 60): APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForRenderComplete @ api.ts:765
+await in waitForRenderComplete
+renderParaPortrait @ api.ts:826
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:828 Attempt 1 failed: APIError: Unknown render status
+    at ShotstackService.waitForRenderComplete (api.ts:755:19)
+    at async ShotstackService.renderParaPortrait (api.ts:826:16)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+renderParaPortrait @ api.ts:828
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:807 Attempt 2: Using Shotstack API...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+    "attributes": {
+      "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:53:43.037Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1kx-611y8-r38r0-52048f', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'queued', created: '2025-01-28T05:53:43.037Z'}
+api.ts:608 Source zzz01jjn-qj1kx-611y8-r38r0-52048f status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 1}
+api.ts:633 Source queued, waiting 1000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+    "attributes": {
+      "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/QXSshDc/ff896b1445e3.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:53:43.076Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf', owner: '95d6ntb8l6', input: 'https://i.ibb.co/QXSshDc/ff896b1445e3.jpg', status: 'queued', created: '2025-01-28T05:53:43.076Z'}
+api.ts:608 Source zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 1}
+api.ts:633 Source queued, waiting 1000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+    "attributes": {
+      "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:53:43.037Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1kx-611y8-r38r0-52048f', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'queued', created: '2025-01-28T05:53:43.037Z'}
+api.ts:608 Source zzz01jjn-qj1kx-611y8-r38r0-52048f status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 2}
+api.ts:633 Source queued, waiting 2000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+    "attributes": {
+      "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/QXSshDc/ff896b1445e3.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:53:43.076Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf', owner: '95d6ntb8l6', input: 'https://i.ibb.co/QXSshDc/ff896b1445e3.jpg', status: 'queued', created: '2025-01-28T05:53:43.076Z'}
+api.ts:608 Source zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 2}
+api.ts:633 Source queued, waiting 2000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+    "attributes": {
+      "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/QXSshDc/ff896b1445e3.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:53:43.076Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf', owner: '95d6ntb8l6', input: 'https://i.ibb.co/QXSshDc/ff896b1445e3.jpg', status: 'queued', created: '2025-01-28T05:53:43.076Z'}
+api.ts:608 Source zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 3}
+api.ts:633 Source queued, waiting 4000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+    "attributes": {
+      "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:53:43.037Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1kx-611y8-r38r0-52048f', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'queued', created: '2025-01-28T05:53:43.037Z'}
+api.ts:608 Source zzz01jjn-qj1kx-611y8-r38r0-52048f status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 3}
+api.ts:633 Source queued, waiting 4000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+    "attributes": {
+      "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:53:43.037Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1kx-611y8-r38r0-52048f', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'queued', created: '2025-01-28T05:53:43.037Z'}
+api.ts:608 Source zzz01jjn-qj1kx-611y8-r38r0-52048f status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 4}
+api.ts:633 Source queued, waiting 8000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+    "attributes": {
+      "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/QXSshDc/ff896b1445e3.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:53:43.076Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf', owner: '95d6ntb8l6', input: 'https://i.ibb.co/QXSshDc/ff896b1445e3.jpg', status: 'queued', created: '2025-01-28T05:53:43.076Z'}
+api.ts:608 Source zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 4}
+api.ts:633 Source queued, waiting 8000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+    "attributes": {
+      "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "failed",
+      "error": "[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443",
+      "created": "2025-01-28T05:53:43.037Z",
+      "updated": "2025-01-28T05:53:58.656Z"
+    }
+  }
+}
+api.ts:598 Status: failed
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1kx-611y8-r38r0-52048f', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'failed', error: '[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443', …}
+api.ts:608 Source zzz01jjn-qj1kx-611y8-r38r0-52048f status check: {status: 'failed', source: '[No source URL yet]', error: '[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443', attempt: 5}
+api.ts:650 Source check error: APIError: Source processing failed
+    at ShotstackService.waitForSourceReady (api.ts:623:19)
+    at async ShotstackService.ingestUrl (api.ts:563:14)
+    at async Promise.all (index 1)
+    at async ShotstackService.renderParaPortrait (api.ts:809:24)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForSourceReady @ api.ts:650
+await in waitForSourceReady
+ingestUrl @ api.ts:563
+await in ingestUrl
+renderParaPortrait @ api.ts:811
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+    "attributes": {
+      "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/QXSshDc/ff896b1445e3.jpg",
+      "status": "queued",
+      "created": "2025-01-28T05:53:43.076Z"
+    }
+  }
+}
+api.ts:598 Status: queued
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf', owner: '95d6ntb8l6', input: 'https://i.ibb.co/QXSshDc/ff896b1445e3.jpg', status: 'queued', created: '2025-01-28T05:53:43.076Z'}
+api.ts:608 Source zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf status check: {status: 'queued', source: '[No source URL yet]', error: '[No error]', attempt: 5}
+api.ts:633 Source queued, waiting 16000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+    "attributes": {
+      "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/QXSshDc/ff896b1445e3.jpg",
+      "status": "importing",
+      "created": "2025-01-28T05:53:43.076Z",
+      "updated": "2025-01-28T05:54:05.706Z"
+    }
+  }
+}
+api.ts:598 Status: importing
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf', owner: '95d6ntb8l6', input: 'https://i.ibb.co/QXSshDc/ff896b1445e3.jpg', status: 'importing', created: '2025-01-28T05:53:43.076Z', …}
+api.ts:608 Source zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf status check: {status: 'importing', source: '[No source URL yet]', error: '[No error]', attempt: 6}
+api.ts:633 Source importing, waiting 32000ms before retry...
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+    "attributes": {
+      "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "failed",
+      "error": "[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443",
+      "created": "2025-01-28T05:53:43.037Z",
+      "updated": "2025-01-28T05:53:58.656Z"
+    }
+  }
+}
+api.ts:598 Status: failed
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1kx-611y8-r38r0-52048f', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'failed', error: '[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443', …}
+api.ts:608 Source zzz01jjn-qj1kx-611y8-r38r0-52048f status check: {status: 'failed', source: '[No source URL yet]', error: '[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443', attempt: 6}
+api.ts:650 Source check error: APIError: Source processing failed
+    at ShotstackService.waitForSourceReady (api.ts:623:19)
+    at async ShotstackService.ingestUrl (api.ts:563:14)
+    at async Promise.all (index 1)
+    at async ShotstackService.renderParaPortrait (api.ts:809:24)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForSourceReady @ api.ts:650
+await in waitForSourceReady
+ingestUrl @ api.ts:563
+await in ingestUrl
+renderParaPortrait @ api.ts:811
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+    "attributes": {
+      "id": "zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/QXSshDc/ff896b1445e3.jpg",
+      "source": "https://shotstack-ingest-api-v1-sources.s3.ap-southeast-2.amazonaws.com/95d6ntb8l6/zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf/source.jpg",
+      "status": "ready",
+      "width": 1024,
+      "height": 1024,
+      "created": "2025-01-28T05:53:43.076Z",
+      "updated": "2025-01-28T05:54:24.312Z"
+    }
+  }
+}
+api.ts:598 Status: ready
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf', owner: '95d6ntb8l6', input: 'https://i.ibb.co/QXSshDc/ff896b1445e3.jpg', source: 'https://shotstack-ingest-api-v1-sources.s3.ap-sout…b8l6/zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf/source.jpg', status: 'ready', …}
+api.ts:608 Source zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf status check: {status: 'ready', source: 'https://shotstack-ingest-api-v1-sources.s3.ap-sout…b8l6/zzz01jjn-qj1n4-eve9m-ca9rx-4asvnf/source.jpg', error: '[No error]', attempt: 7}
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+    "attributes": {
+      "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "failed",
+      "error": "[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443",
+      "created": "2025-01-28T05:53:43.037Z",
+      "updated": "2025-01-28T05:53:58.656Z"
+    }
+  }
+}
+api.ts:598 Status: failed
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1kx-611y8-r38r0-52048f', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'failed', error: '[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443', …}
+api.ts:608 Source zzz01jjn-qj1kx-611y8-r38r0-52048f status check: {status: 'failed', source: '[No source URL yet]', error: '[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443', attempt: 7}
+api.ts:650 Source check error: APIError: Source processing failed
+    at ShotstackService.waitForSourceReady (api.ts:623:19)
+    at async ShotstackService.ingestUrl (api.ts:563:14)
+    at async Promise.all (index 1)
+    at async ShotstackService.renderParaPortrait (api.ts:809:24)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForSourceReady @ api.ts:650
+await in waitForSourceReady
+ingestUrl @ api.ts:563
+await in ingestUrl
+renderParaPortrait @ api.ts:811
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+    "attributes": {
+      "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "failed",
+      "error": "[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443",
+      "created": "2025-01-28T05:53:43.037Z",
+      "updated": "2025-01-28T05:53:58.656Z"
+    }
+  }
+}
+api.ts:598 Status: failed
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1kx-611y8-r38r0-52048f', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'failed', error: '[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443', …}
+api.ts:608 Source zzz01jjn-qj1kx-611y8-r38r0-52048f status check: {status: 'failed', source: '[No source URL yet]', error: '[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443', attempt: 8}
+api.ts:650 Source check error: APIError: Source processing failed
+    at ShotstackService.waitForSourceReady (api.ts:623:19)
+    at async ShotstackService.ingestUrl (api.ts:563:14)
+    at async Promise.all (index 1)
+    at async ShotstackService.renderParaPortrait (api.ts:809:24)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)
+waitForSourceReady @ api.ts:650
+await in waitForSourceReady
+ingestUrl @ api.ts:563
+await in ingestUrl
+renderParaPortrait @ api.ts:811
+await in renderParaPortrait
+generateFinalPortrait @ ImageGeneration.tsx:129
+handleImageUpload @ ImageGeneration.tsx:156
+await in handleImageUpload
+callCallback2 @ chunk-3IHV7RO6.js?v=5712278e:3674
+invokeGuardedCallbackDev @ chunk-3IHV7RO6.js?v=5712278e:3699
+invokeGuardedCallback @ chunk-3IHV7RO6.js?v=5712278e:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-3IHV7RO6.js?v=5712278e:3736
+executeDispatch @ chunk-3IHV7RO6.js?v=5712278e:7014
+processDispatchQueueItemsInOrder @ chunk-3IHV7RO6.js?v=5712278e:7034
+processDispatchQueue @ chunk-3IHV7RO6.js?v=5712278e:7043
+dispatchEventsForPlugins @ chunk-3IHV7RO6.js?v=5712278e:7051
+(anonymous) @ chunk-3IHV7RO6.js?v=5712278e:7174
+batchedUpdates$1 @ chunk-3IHV7RO6.js?v=5712278e:18913
+batchedUpdates @ chunk-3IHV7RO6.js?v=5712278e:3579
+dispatchEventForPluginEventSystem @ chunk-3IHV7RO6.js?v=5712278e:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-3IHV7RO6.js?v=5712278e:5478
+dispatchEvent @ chunk-3IHV7RO6.js?v=5712278e:5472
+dispatchDiscreteEvent @ chunk-3IHV7RO6.js?v=5712278e:5449Understand this errorAI
+api.ts:597 DETAILED SOURCE RESPONSE: {
+  "data": {
+    "type": "source",
+    "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+    "attributes": {
+      "id": "zzz01jjn-qj1kx-611y8-r38r0-52048f",
+      "owner": "95d6ntb8l6",
+      "input": "https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg",
+      "status": "failed",
+      "error": "[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443",
+      "created": "2025-01-28T05:53:43.037Z",
+      "updated": "2025-01-28T05:53:58.656Z"
+    }
+  }
+}
+api.ts:598 Status: failed
+api.ts:599 Full attributes: {id: 'zzz01jjn-qj1kx-611y8-r38r0-52048f', owner: '95d6ntb8l6', input: 'https://i.ibb.co/HCWCTYT/b733fc3cee17.jpg', status: 'failed', error: '[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443', …}
+api.ts:608 Source zzz01jjn-qj1kx-611y8-r38r0-52048f status check: {status: 'failed', source: '[No source URL yet]', error: '[HTTP undefined] connect ETIMEDOUT 108.181.22.211:443', attempt: 9}
+api.ts:650 Source check error: APIError: Source processing failed
+    at ShotstackService.waitForSourceReady (api.ts:623:19)
+    at async ShotstackService.ingestUrl (api.ts:563:14)
+    at async Promise.all (index 1)
+    at async ShotstackService.renderParaPortrait (api.ts:809:24)
+    at async generateFinalPortrait (ImageGeneration.tsx:129:29)
+    at async handleImageUpload (ImageGeneration.tsx:156:7)

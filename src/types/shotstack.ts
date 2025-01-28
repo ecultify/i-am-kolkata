@@ -12,7 +12,7 @@ export interface ShotstackRenderResponse {
     message: string;
     response: {
       id: string;
-      status: 'queued' | 'rendering' | 'fetching' | 'ready' | 'failed';
+      status: 'queued' | 'rendering' | 'fetching' | 'ready' | 'done' | 'saving' | 'failed';
       url?: string;
       error?: string;
     };
@@ -22,7 +22,7 @@ export interface ShotstackRenderResponse {
     bgImage?: string;
     userImage?: string;
     paraName?: string;
-    description?: string;
+    paraDescription?: string;
     pincode?: string;
   }
   

@@ -108,7 +108,7 @@ export const ImageGeneration: React.FC = () => {
 
   const generateFinalPortrait = async (bgImageUrl: string, userImageUrl: string) => {
     if (!state) throw new Error('No state available');
-
+  
     try {
       setProcessingStep('Creating final composition...');
       
@@ -117,15 +117,15 @@ export const ImageGeneration: React.FC = () => {
         .filter(exp => exp?.content && exp.content.trim() !== '')
         .map(exp => exp.content.trim())
         .join('. ');
-
-      const mergeFields: ShotstackMergeFields = {
+  
+      const mergeFields: Required<ShotstackMergeFields> = {
         bgImage: bgImageUrl,
         userImage: userImageUrl,
-        paraName: state.paraName,
-        description: validExperiences || state.generatedContent, // Use experiences if available, fall back to generated content
-        pincode: state.location.pincode
+        paraName: state.paraName || 'Untitled Para',
+        paraDescription: validExperiences || state.generatedContent || '',
+        pincode: state.location.pincode || ''
       };
-
+  
       const finalImageUrl = await ShotstackService.renderParaPortrait(mergeFields);
       setFinalImage(finalImageUrl);
     } catch (error: any) {

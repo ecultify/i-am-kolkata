@@ -6,7 +6,7 @@ import type { IncomingMessage } from 'http';
 export default defineConfig(({ mode }) => {
   // Load env file based on mode
   const env = loadEnv(mode, process.cwd(), '');
-  
+
   // Check if required env variables exist
   const shotstackApiKey = env.VITE_SHOTSTACK_API_KEY;
   if (!shotstackApiKey && mode === 'production') {
@@ -26,6 +26,16 @@ export default defineConfig(({ mode }) => {
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       },
       proxy: {
+        '/api/openai': {
+          target: 'https://api.openai.com/v1',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/openai/, ''),
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq) => {
+              proxyReq.setHeader('Authorization', `Bearer ${env.VITE_OPENAI_API_KEY}`);
+            });
+          },
+        },
         '/imgbb-api': {
           target: 'https://api.imgbb.com/1',
           changeOrigin: true,
@@ -38,13 +48,13 @@ export default defineConfig(({ mode }) => {
             proxy.on('error', (err) => {
               console.error('ImgBB proxy error:', err);
             });
-            
+
             proxy.on('proxyReq', (proxyReq, req: IncomingMessage) => {
               console.log('ImgBB request:', req.method, req.url);
               proxyReq.setHeader('Access-Control-Allow-Origin', '*');
               proxyReq.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
             });
-            
+
             proxy.on('proxyRes', (proxyRes: IncomingMessage, req: IncomingMessage) => {
               console.log('ImgBB response:', proxyRes.statusCode, req.url);
               let body = '';
@@ -71,7 +81,7 @@ export default defineConfig(({ mode }) => {
             proxy.on('error', (err) => {
               console.error('Shotstack proxy error:', err);
             });
-            
+
             proxy.on('proxyReq', (proxyReq, req: IncomingMessage) => {
               console.log('Shotstack request:', req.method, req.url);
               if (shotstackApiKey) {
@@ -81,14 +91,14 @@ export default defineConfig(({ mode }) => {
               proxyReq.setHeader('Access-Control-Allow-Origin', '*');
               proxyReq.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
             });
-            
+
             proxy.on('proxyRes', (proxyRes: IncomingMessage, req: IncomingMessage) => {
               const requestPath = req.url || '';
-              console.log(`Shotstack ${requestPath.includes('/ingest/') ? 'Ingest' : 'API'} response:`, 
-                proxyRes.statusCode, 
+              console.log(`Shotstack ${requestPath.includes('/ingest/') ? 'Ingest' : 'API'} response:`,
+                proxyRes.statusCode,
                 req.url
               );
-              
+
               let body = '';
               proxyRes.on('data', chunk => body += chunk);
               proxyRes.on('end', () => {

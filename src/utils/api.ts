@@ -46,7 +46,7 @@ const CONFIG = {
     dangerouslyAllowBrowser: true
   }),
   bgRemove: {
-    apiKey: 'mP2BUvLiu3dSgMEi6wJ3cBJL',
+    apiKey: 'cNuV4JbjTeXTkPh3QCcP7LSG',
     apiUrl: 'https://api.remove.bg/v1.0/removebg'
   },
   shotstack: {
@@ -99,7 +99,7 @@ const validateImageUrl = async (url: string): Promise<ImageValidationResult> => 
     }
 
     try {
-      await fetch(url, { 
+      await fetch(url, {
         method: 'HEAD',
         mode: 'no-cors', // This means we can't actually check response.ok
         headers: {
@@ -107,7 +107,7 @@ const validateImageUrl = async (url: string): Promise<ImageValidationResult> => 
           'Pragma': 'no-cache'
         }
       });
-      
+
       // If we get here, the fetch didn't throw, so we consider it valid
       return {
         isValid: true,
@@ -132,22 +132,24 @@ export const removeBg = async (imageFile: File): Promise<string> => {
   const formData = new FormData();
   formData.append('image_file', imageFile);
   formData.append('size', 'auto');
+  formData.append('format', 'auto');  // This ensures we get PNG with transparency
 
   try {
     const response = await fetch(CONFIG.bgRemove.apiUrl, {
       method: 'POST',
-      headers: { 
+      headers: {
         'X-Api-Key': CONFIG.bgRemove.apiKey,
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache'
       },
       body: formData,
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Remove.bg API error:', errorText);
       throw new APIError('Failed to remove background', {
         status: response.status,
-        statusText: response.statusText
+        statusText: response.statusText,
+        error: errorText
       });
     }
 
@@ -164,7 +166,7 @@ export const uploadToImgBB = async (imageData: string, retries = 3): Promise<str
     const img = new Image();
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    
+
     await new Promise((resolve, reject) => {
       img.onload = resolve;
       img.onerror = reject;
@@ -177,7 +179,7 @@ export const uploadToImgBB = async (imageData: string, retries = 3): Promise<str
     canvas.width = newWidth;
     canvas.height = newHeight;
     ctx?.drawImage(img, 0, 0, newWidth, newHeight);
-    
+
     return canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
   };
 
@@ -188,7 +190,7 @@ export const uploadToImgBB = async (imageData: string, retries = 3): Promise<str
         : imageData;
 
       const compressedImage = await compressImage(base64Image);
-      
+
       const formData = new FormData();
       formData.append('key', CONFIG.imgbb.apiKey);
       formData.append('image', compressedImage);
@@ -208,7 +210,7 @@ export const uploadToImgBB = async (imageData: string, retries = 3): Promise<str
       }
 
       const data = await response.json();
-      
+
       if (!data.success) {
         throw new Error('Upload failed: ' + (data.error?.message || 'Unknown error'));
       }
@@ -233,7 +235,7 @@ export const uploadToImgBB = async (imageData: string, retries = 3): Promise<str
 export const fetchTags = async (pincode: string): Promise<string[]> => {
   try {
     const response = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
-    
+
     if (!response.ok) {
       throw new APIError('Failed to fetch area details', {
         status: response.status,
@@ -243,7 +245,7 @@ export const fetchTags = async (pincode: string): Promise<string[]> => {
 
     const data = await response.json();
     const areaDetails = data[0]?.PostOffice?.[0];
-    
+
     if (!areaDetails) {
       throw new APIError('Area details not found', { pincode });
     }
@@ -289,7 +291,7 @@ export const generateContent = async (
 ): Promise<string> => {
   try {
     const validExperiences = experiences.filter(exp => exp.content.trim().length > 0);
-    
+
     const prompt = `Create a brief 40-50 word description of "${paraName}" based on these local experiences:
                    ${validExperiences.map(exp => `- ${exp.content.trim()}`).join('\n')}
                    
@@ -322,7 +324,7 @@ export const generateParaImage = async (
 ): Promise<string> => {
   try {
     const validExperiences = experiences.filter(exp => exp.content.trim().length > 0);
-    
+
     const prompt = `Create a photorealistic digital art of a vibrant Indian neighborhood scene in ${location.area}, Kolkata.
                    Featured landmarks and elements:
                    ${validExperiences.map(exp => `- ${exp.content}`).join('\n')}
@@ -364,15 +366,15 @@ export const generateParaImage = async (
 
 export class ShotstackService {
   private static readonly CONFIG: ProcessingConfig = {
-    maxAttempts: 3,
+    maxAttempts: 5,  // Increased for better reliability
     timeouts: {
-      request: 30000,
-      processing: 45000,
-      render: 60000
+      request: 20000,
+      processing: 30000,
+      render: 45000
     },
     intervals: {
-      initial: 2000,
-      max: 10000
+      initial: 1500,
+      max: 8000
     },
     fetchOptions: {
       mode: 'cors',
@@ -393,13 +395,13 @@ export class ShotstackService {
 
   private static readonly RATE_LIMIT = {
     requestsPerSecond: 1,
-    minRetryDelay: 2000,
-    maxRetryDelay: 30000,
+    minRetryDelay: 1500,
+    maxRetryDelay: 20000,
     maxAttempts: 5
   };
 
   private static async rateLimitDelay(): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, 1000));
+    return new Promise(resolve => setTimeout(resolve, 800));
   }
 
   private static getFetchOptions(options: RequestInit = {}): RequestInit {
@@ -414,8 +416,8 @@ export class ShotstackService {
   }
 
   private static async processImageLocally(
-    bgImage: string, 
-    userImage: string, 
+    bgImage: string,
+    userImage: string,
     mergeFields: ShotstackMergeFields
   ): Promise<string> {
     try {
@@ -427,7 +429,6 @@ export class ShotstackService {
       canvas.width = 1080;
       canvas.height = 1080;
 
-      // Load images with timeout
       const loadImage = async (url: string): Promise<HTMLImageElement> => {
         return new Promise((resolve, reject) => {
           const img = new Image();
@@ -446,7 +447,6 @@ export class ShotstackService {
       };
 
       console.log('Loading images...');
-      // Load both images in parallel with progress tracking
       const [bgImg, userImg] = await Promise.all([
         loadImage(bgImage).then(img => {
           console.log('Background image loaded');
@@ -459,15 +459,12 @@ export class ShotstackService {
       ]);
 
       console.log('Processing background...');
-      // Draw background
       ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
-      // Add translucent overlay
       ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       console.log('Processing user image...');
-      // Calculate user image dimensions
       const scale = Math.min(
         (canvas.width * 0.8) / userImg.width,
         (canvas.height * 0.8) / userImg.height
@@ -475,11 +472,9 @@ export class ShotstackService {
       const x = (canvas.width - userImg.width * scale) / 2;
       const y = (canvas.height - userImg.height * scale) / 2;
 
-      // Draw user image
       ctx.drawImage(userImg, x, y, userImg.width * scale, userImg.height * scale);
 
       console.log('Adding text overlays...');
-      // Add text overlays
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
@@ -497,7 +492,7 @@ export class ShotstackService {
       ctx.shadowBlur = 4;
       ctx.shadowOffsetX = 1;
       ctx.shadowOffsetY = 1;
-      
+
       const wrapText = (text: string, maxWidth: number, lineHeight: number): void => {
         const words = text.split(' ');
         let line = '';
@@ -506,7 +501,7 @@ export class ShotstackService {
         words.forEach(word => {
           const testLine = line + word + ' ';
           const metrics = ctx.measureText(testLine);
-          
+
           if (metrics.width > maxWidth && line !== '') {
             ctx.fillText(line, canvas.width / 2, y);
             line = word + ' ';
@@ -515,14 +510,14 @@ export class ShotstackService {
             line = testLine;
           }
         });
-        
+
         ctx.fillText(line, canvas.width / 2, y);
       };
 
-      wrapText(mergeFields.description || '', canvas.width - 120, 36);
+      wrapText(mergeFields.paraDescription || '', canvas.width - 120, 36);
 
       console.log('Finalizing image processing...');
-      return canvas.toDataURL('image/png');
+      return canvas.toDataURL('image/jpeg', 0.9); // Changed to JPEG with high quality
     } catch (error) {
       console.error('Local processing error:', error);
       throw new APIError('Failed to process image locally', { cause: error });
@@ -532,30 +527,38 @@ export class ShotstackService {
   private static async ingestUrl(url: string): Promise<string> {
     const validationResult = await validateImageUrl(url);
     if (!validationResult.isValid) {
+      console.warn('URL validation failed:', validationResult.error);
       throw new APIError('Invalid image URL', { error: validationResult.error });
     }
-  
+
     const validUrl = validationResult.directUrl!;
     try {
+      console.log('Attempting to ingest URL:', validUrl);
+      // Simplify the payload to just include the URL
       const response = await fetch(CONFIG.shotstack.endpoints.ingest, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({ 
+        headers: this.headers,
+        body: JSON.stringify({
           url: validUrl
         })
       });
-  
+
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Ingest API error:', {
+          status: response.status,
+          text: errorText
+        });
         throw new APIError('Failed to ingest URL', {
           status: response.status,
-          statusText: response.statusText
+          statusText: response.statusText,
+          error: errorText
         });
       }
-  
+
       const data = await response.json();
+      console.log('Ingest response:', data);
+
       const sourceId = data.data?.id;
       if (!sourceId) {
         throw new APIError('Invalid source ID response');
@@ -569,9 +572,21 @@ export class ShotstackService {
 
   private static async waitForSourceReady(sourceId: string): Promise<string> {
     let attempts = 0;
-    const maxAttempts = 10;
-    const initialDelay = 1000;
-  
+    const maxAttempts = 20;
+    const initialDelay = 1500;
+
+    const handleFailedAttempt = async (error: any, attempt: number) => {
+      if (attempt === maxAttempts - 1) throw error;
+
+      const delay = Math.min(
+        initialDelay * Math.pow(1.5, attempt),
+        this.CONFIG.intervals.max
+      );
+
+      console.log(`Attempt ${attempt + 1} failed, retrying in ${delay}ms...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    };
+
     while (attempts < maxAttempts) {
       try {
         const response = await fetch(
@@ -579,100 +594,86 @@ export class ShotstackService {
           {
             method: 'GET',
             headers: {
+              ...this.headers,
               'Accept': 'application/json'
             }
           }
         );
-  
+
         if (!response.ok) {
           throw new APIError('Failed to check source status', {
             status: response.status,
             statusText: response.statusText
           });
         }
-  
+
         const data = await response.json();
-        
-        // Detailed logging to understand the response structure
-        console.log('DETAILED SOURCE RESPONSE:', JSON.stringify(data, null, 2));
-        console.log('Status:', data.data?.attributes?.status);
-        console.log('Full attributes:', data.data?.attributes);
-  
+        console.log('Source status:', data.data?.attributes?.status);
+
         if (!data.data?.attributes) {
           throw new APIError('Invalid response format', { data });
         }
-  
+
         const { status, source, error } = data.data.attributes;
-  
-        // Log every status check with more details
-        console.log(`Source ${sourceId} status check:`, {
-          status,
-          source: source || '[No source URL yet]',
-          error: error || '[No error]',
-          attempt: attempts + 1
-        });
-  
+
         switch (status) {
           case 'ready':
-            if (source) {
-              return source;
-            }
+            if (source) return source;
             throw new APIError('Source URL missing from ready response');
-  
+
           case 'failed':
             throw new APIError('Source processing failed', {
               sourceId,
               error: error || 'Unknown error'
             });
-  
+
           case 'queued':
           case 'importing':
-            // If we haven't hit max attempts, wait and try again
             if (attempts < maxAttempts - 1) {
-              const delay = initialDelay * Math.pow(2, attempts);
-              console.log(`Source ${status}, waiting ${delay}ms before retry...`);
+              const delay = initialDelay * Math.pow(1.5, attempts);
               await new Promise(resolve => setTimeout(resolve, delay));
               attempts++;
               continue;
             }
-            throw new APIError('Source processing timeout', {
-              sourceId,
-              lastStatus: status
-            });
-  
+            throw new APIError('Source processing timeout');
+
           default:
-            throw new APIError('Unknown source status', {
-              sourceId,
-              status
-            });
+            throw new APIError('Unknown source status', { status });
         }
       } catch (error) {
-        console.error('Source check error:', error);
-        
-        if (attempts === maxAttempts - 1) {
-          throw error;
-        }
-        
-        const delay = initialDelay * Math.pow(2, attempts);
-        await new Promise(resolve => setTimeout(resolve, delay));
-        attempts++;
+        await handleFailedAttempt(error, attempts++);
       }
     }
-  
+
     throw new APIError('Max attempts reached waiting for source');
   }
+
   private static async initiateRender(payload: any): Promise<string> {
+    const renderPayload = {
+      ...payload,
+      output: {
+        ...payload.output,
+        format: "image",
+        imageFormat: "jpeg",
+        quality: "high"
+      }
+    };
+
     try {
       await this.rateLimitDelay();
-      
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), this.CONFIG.timeouts.request);
+      const headers = {
+        ...this.headers,
+        'x-output-format': 'image/jpeg'
+      };
 
-      const response = await fetch(CONFIG.shotstack.endpoints.render, 
+      const response = await fetch(CONFIG.shotstack.endpoints.render,
         this.getFetchOptions({
           method: 'POST',
-          body: JSON.stringify(payload),
-          signal: controller.signal
+          body: JSON.stringify(renderPayload),
+          signal: controller.signal,
+          headers
         })
       );
 
@@ -687,7 +688,7 @@ export class ShotstackService {
       }
 
       const data: ShotstackRenderResponse = await response.json();
-      
+
       if (!data.success || !data.response?.id) {
         throw new APIError('Invalid render response', { data });
       }
@@ -732,26 +733,30 @@ export class ShotstackService {
 
         switch (status.response.status) {
           case 'ready':
+          case 'done':
             if (!status.response.url) {
               throw new APIError('Render URL missing');
             }
             console.log('Render complete:', status.response.url);
-            return status.response.url;
-          
+            // Convert video URL to image URL if needed
+            return status.response.url.replace(/\.mp4$/, '.jpg');
+
           case 'failed':
             throw new APIError('Render failed', {
               error: status.response.error
             });
-          
+
           case 'queued':
           case 'rendering':
           case 'fetching':
+          case 'saving':
             interval = Math.min(interval * 1.5, this.CONFIG.intervals.max);
             await new Promise(resolve => setTimeout(resolve, interval));
             attempts++;
             continue;
-          
+
           default:
+            console.warn('Unknown render status received:', status.response.status);
             throw new APIError('Unknown render status', {
               status: status.response.status
             });
@@ -763,11 +768,11 @@ export class ShotstackService {
         }
 
         console.error(`Render status check error (attempt ${attempts + 1}):`, error);
-        
+
         if (attempts === maxAttempts - 1) {
           throw error;
         }
-        
+
         await new Promise(resolve => setTimeout(resolve, this.RATE_LIMIT.minRetryDelay));
         attempts++;
       }
@@ -777,9 +782,17 @@ export class ShotstackService {
   }
 
   public static async renderParaPortrait(mergeFields: ShotstackMergeFields): Promise<string> {
+    console.log('Rendering para portrait with merge fields:', {
+      paraName: mergeFields.paraName,
+      paraDescription: mergeFields.paraDescription,
+      pincode: mergeFields.pincode
+    });
     if (!mergeFields.bgImage || !mergeFields.userImage) {
       throw new APIError('Missing required image URLs');
     }
+
+    // Always try API first, fallback to local processing only on failure
+    console.log('Attempting Shotstack API processing first...');
 
     let attempts = 0;
     let lastError: Error | null = null;
@@ -795,17 +808,8 @@ export class ShotstackService {
           );
         }
 
-        if (attempts === this.CONFIG.maxAttempts - 1) {
-          console.log('Final attempt, using local processing...');
-          return await this.processImageLocally(
-            mergeFields.bgImage,
-            mergeFields.userImage,
-            mergeFields
-          );
-        }
-
         console.log(`Attempt ${attempts + 1}: Using Shotstack API...`);
-        
+
         const images = await Promise.all([
           this.ingestUrl(mergeFields.bgImage),
           this.ingestUrl(mergeFields.userImage)
@@ -816,14 +820,25 @@ export class ShotstackService {
           merge: [
             { find: "backgroundImage", replace: images[0] },
             { find: "userImage", replace: images[1] },
-            { find: "TEXT_VAR_446", replace: mergeFields.paraName || 'Untitled Para' },
-            { find: "TEXT_VAR_648", replace: mergeFields.description || '' },
-            { find: "TEXT_VAR_451", replace: mergeFields.pincode || '' }
-          ]
+            { find: "paraName", replace: mergeFields.paraName || 'Untitled Para' },
+            { find: "paraDescription", replace: mergeFields.paraDescription || '' },
+            { find: "pincode", replace: mergeFields.pincode || '' }
+          ],
+          output: {
+            // Change format specification to explicitly request image
+            format: "image",
+            imageFormat: "jpg",
+            quality: "high",
+            width: 1920,
+            height: 1080
+          }
         };
 
         const renderId = await this.initiateRender(renderPayload);
-        return await this.waitForRenderComplete(renderId);
+        const result = await this.waitForRenderComplete(renderId);
+
+        // Convert video URL to image URL if needed
+        return result.replace(/\.mp4$/, '.jpg');
       } catch (error) {
         console.error(`Attempt ${attempts + 1} failed:`, error);
         lastError = error as Error;
@@ -831,30 +846,36 @@ export class ShotstackService {
 
         if (attempts < this.CONFIG.maxAttempts) {
           const delay = Math.min(
-            2000 * Math.pow(2, attempts),
-            30000
+            1500 * Math.pow(1.5, attempts),
+            20000
           );
           await new Promise(resolve => setTimeout(resolve, delay));
         }
       }
     }
 
-    throw lastError || new APIError('Failed to process image after all attempts');
+    // Fall back to local processing if all API attempts failed
+    console.log('All API attempts failed, falling back to local processing...');
+    return await this.processImageLocally(
+      mergeFields.bgImage,
+      mergeFields.userImage,
+      mergeFields
+    );
   }
 }
 
 function calculateDimensions(width: number, height: number, maxDim: number): { width: number; height: number } {
-if (width <= maxDim && height <= maxDim) {
-  return { width, height };
-}
+  if (width <= maxDim && height <= maxDim) {
+    return { width, height };
+  }
 
-if (width > height) {
-  const newWidth = maxDim;
-  const newHeight = Math.round((height * maxDim) / width);
-  return { width: newWidth, height: newHeight };
-} else {
-  const newHeight = maxDim;
-  const newWidth = Math.round((width * maxDim) / height);
-  return { width: newWidth, height: newHeight };
-}
+  if (width > height) {
+    const newWidth = maxDim;
+    const newHeight = Math.round((height * maxDim) / width);
+    return { width: newWidth, height: newHeight };
+  } else {
+    const newHeight = maxDim;
+    const newWidth = Math.round((width * maxDim) / height);
+    return { width: newWidth, height: newHeight };
+  }
 }
