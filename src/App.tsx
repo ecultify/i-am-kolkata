@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { Header } from './components/Header';
 import { LocationDetector } from './components/LocationDetector';
@@ -122,7 +122,7 @@ function MainPage() {
         tags: selectedTags,
         experiences: experiences.filter(exp => exp.content.trim().length > 0),
         location,
-        paraName,           
+        paraName,
         generatedContent
       }
     });

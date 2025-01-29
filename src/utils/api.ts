@@ -74,7 +74,7 @@ class APIError extends Error {
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Helper function to validate and transform image URLs
+
 const validateImageUrl = async (url: string): Promise<ImageValidationResult> => {
   try {
     // Transform ImgBB share URLs to direct URLs
@@ -90,37 +90,52 @@ const validateImageUrl = async (url: string): Promise<ImageValidationResult> => 
       url = `https://i.ibb.co/${id}`;
     }
 
-    // Validate URL format
-    if (!url.match(/^https:\/\/i\.ibb\.co\/.+\.(jpg|jpeg|png|gif)$/i)) {
-      return {
-        isValid: false,
-        error: 'Invalid image URL format'
-      };
-    }
+    // First try loading the image directly
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
 
     try {
-      await fetch(url, {
-        method: 'HEAD',
-        mode: 'no-cors', // This means we can't actually check response.ok
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
+      await new Promise((resolve, reject) => {
+        const timeoutId = setTimeout(() => reject(new Error('Image load timeout')), 5000);
+        img.onload = () => {
+          clearTimeout(timeoutId);
+          resolve(true);
+        };
+        img.onerror = () => {
+          clearTimeout(timeoutId);
+          reject(new Error('Image load failed'));
+        };
+        img.src = url;
       });
 
-      // If we get here, the fetch didn't throw, so we consider it valid
       return {
         isValid: true,
         directUrl: url
       };
-    } catch (fetchError) {
-      return {
-        isValid: false,
-        error: 'Image URL not accessible'
-      };
-    }
+    } catch (loadError) {
+      console.warn('Direct image load failed, attempting no-cors fetch');
 
+      try {
+        await fetch(url, {
+          method: 'HEAD',
+          mode: 'no-cors',
+          cache: 'no-cache'
+        });
+
+        // If we get here without throwing, the resource exists
+        return {
+          isValid: true,
+          directUrl: url
+        };
+      } catch (fetchError) {
+        return {
+          isValid: false,
+          error: 'Image URL not accessible'
+        };
+      }
+    }
   } catch (error) {
+    console.error('Image validation error:', error);
     return {
       isValid: false,
       error: error instanceof Error ? error.message : 'Failed to validate image URL'
@@ -128,6 +143,8 @@ const validateImageUrl = async (url: string): Promise<ImageValidationResult> => 
   }
 };
 
+// Complete replacement for removeBg function
+// Revert back to original working removeBg function
 export const removeBg = async (imageFile: File): Promise<string> => {
   const formData = new FormData();
   formData.append('image_file', imageFile);
@@ -524,70 +541,65 @@ export class ShotstackService {
     }
   }
 
+  // Complete replacement for ingestUrl function
+  // Complete replacement for ingestUrl function
   private static async ingestUrl(url: string): Promise<string> {
-    const validationResult = await validateImageUrl(url);
-    if (!validationResult.isValid) {
-      console.warn('URL validation failed:', validationResult.error);
-      throw new APIError('Invalid image URL', { error: validationResult.error });
-    }
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000); // 15s timeout
 
-    const validUrl = validationResult.directUrl!;
     try {
-      console.log('Attempting to ingest URL:', validUrl);
-      // Simplify the payload to just include the URL
+      console.log('Ingesting URL:', url);
+
       const response = await fetch(CONFIG.shotstack.endpoints.ingest, {
         method: 'POST',
-        headers: this.headers,
+        headers: {
+          ...this.headers,
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-          url: validUrl
-        })
+          url,
+          options: {
+            format: url.toLowerCase().endsWith('.png') ? 'png' : 'jpg'
+          }
+        }),
+        signal: controller.signal
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Ingest API error:', {
+        const error = await response.text();
+        throw new APIError('Ingest failed', {
           status: response.status,
-          text: errorText
-        });
-        throw new APIError('Failed to ingest URL', {
-          status: response.status,
-          statusText: response.statusText,
-          error: errorText
+          error
         });
       }
 
       const data = await response.json();
-      console.log('Ingest response:', data);
-
-      const sourceId = data.data?.id;
-      if (!sourceId) {
-        throw new APIError('Invalid source ID response');
+      if (!data.data?.id) {
+        throw new APIError('Invalid ingest response');
       }
-      return await this.waitForSourceReady(sourceId);
+
+      console.log('Ingest successful:', data.data.id);
+      const sourceUrl = await this.waitForSourceReady(data.data.id);
+      return sourceUrl; // Explicit return
     } catch (error) {
-      console.error('Ingestion error:', error);
-      throw error;
+      return await this.handleShotstackError(error, 'ingest'); // This should rethrow the error
+    } finally {
+      clearTimeout(timeout);
     }
   }
 
+
+  // Complete replacement for waitForSourceReady function
   private static async waitForSourceReady(sourceId: string): Promise<string> {
     let attempts = 0;
-    const maxAttempts = 20;
-    const initialDelay = 1500;
+    const maxAttempts = 5; // Reduced from 20
+    const initialDelay = 2000;
+    const maxDelay = 8000;
 
-    const handleFailedAttempt = async (error: any, attempt: number) => {
-      if (attempt === maxAttempts - 1) throw error;
+    const checkSourceStatus = async () => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
 
-      const delay = Math.min(
-        initialDelay * Math.pow(1.5, attempt),
-        this.CONFIG.intervals.max
-      );
-
-      console.log(`Attempt ${attempt + 1} failed, retrying in ${delay}ms...`);
-      await new Promise(resolve => setTimeout(resolve, delay));
-    };
-
-    while (attempts < maxAttempts) {
       try {
         const response = await fetch(
           `${CONFIG.shotstack.endpoints.ingestStatus}/${sourceId}`,
@@ -596,9 +608,12 @@ export class ShotstackService {
             headers: {
               ...this.headers,
               'Accept': 'application/json'
-            }
+            },
+            signal: controller.signal
           }
         );
+
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           throw new APIError('Failed to check source status', {
@@ -608,13 +623,23 @@ export class ShotstackService {
         }
 
         const data = await response.json();
-        console.log('Source status:', data.data?.attributes?.status);
+        return data;
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    };
+
+    while (attempts < maxAttempts) {
+      try {
+        const data = await checkSourceStatus();
+        console.log('Source status check response:', data);
 
         if (!data.data?.attributes) {
           throw new APIError('Invalid response format', { data });
         }
 
         const { status, source, error } = data.data.attributes;
+        console.log('Source status:', status);
 
         switch (status) {
           case 'ready':
@@ -622,15 +647,31 @@ export class ShotstackService {
             throw new APIError('Source URL missing from ready response');
 
           case 'failed':
+            // Enhanced error logging
+            console.error('Source processing failed:', {
+              sourceId,
+              error,
+              attributes: data.data.attributes
+            });
+
+            // Check for timeout specifically
+            if (error?.includes('ETIMEDOUT')) {
+              throw new APIError('Connection timeout', { sourceId });
+            }
+
             throw new APIError('Source processing failed', {
               sourceId,
-              error: error || 'Unknown error'
+              error: error || 'Unknown error',
+              details: data.data.attributes
             });
 
           case 'queued':
           case 'importing':
             if (attempts < maxAttempts - 1) {
-              const delay = initialDelay * Math.pow(1.5, attempts);
+              const delay = Math.min(
+                initialDelay * Math.pow(1.5, attempts),
+                maxDelay
+              );
               await new Promise(resolve => setTimeout(resolve, delay));
               attempts++;
               continue;
@@ -641,12 +682,28 @@ export class ShotstackService {
             throw new APIError('Unknown source status', { status });
         }
       } catch (error) {
-        await handleFailedAttempt(error, attempts++);
+        if (error instanceof Error && error.message.includes('ETIMEDOUT')) {
+          console.log('Timeout detected, failing fast to local processing');
+          throw new APIError('Connection timeout', { sourceId });
+        }
+
+        if (attempts === maxAttempts - 1) {
+          throw error;
+        }
+
+        const delay = Math.min(
+          initialDelay * Math.pow(1.5, attempts),
+          maxDelay
+        );
+        console.log(`Attempt ${attempts + 1} failed, retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        attempts++;
       }
     }
 
     throw new APIError('Max attempts reached waiting for source');
   }
+
 
   private static async initiateRender(payload: any): Promise<string> {
     const renderPayload = {
@@ -787,80 +844,109 @@ export class ShotstackService {
       paraDescription: mergeFields.paraDescription,
       pincode: mergeFields.pincode
     });
+
     if (!mergeFields.bgImage || !mergeFields.userImage) {
       throw new APIError('Missing required image URLs');
     }
 
-    // Always try API first, fallback to local processing only on failure
-    console.log('Attempting Shotstack API processing first...');
+    try {
+      console.log('Attempting Shotstack API processing...');
+      const images = await Promise.all([
+        this.ingestUrl(mergeFields.bgImage),
+        this.ingestUrl(mergeFields.userImage)
+      ]).catch(error => {
+        if (error instanceof Error && error.message.includes('ETIMEDOUT')) {
+          throw new APIError('Connection timeout during image ingestion');
+        }
+        throw error;
+      });
 
-    let attempts = 0;
-    let lastError: Error | null = null;
+      // Part of renderParaPortrait function where we create the renderPayload
+      const renderPayload = {
+        id: CONFIG.shotstack.templateId,
+        merge: [
+          {
+            find: "backgroundImage",
+            replace: images[0],
+            options: {
+              imageFormat: "jpg",
+              quality: "high"
+            }
+          },
+          {
+            find: "userImage",
+            replace: images[1],
+            options: {
+              imageFormat: "png", // Ensure PNG for user image to preserve transparency
+              quality: "high"
+            }
+          },
+          { find: "paraName", replace: mergeFields.paraName || 'Untitled Para' },
+          { find: "paraDescription", replace: mergeFields.paraDescription || '' },
+          { find: "pincode", replace: mergeFields.pincode || '' }
+        ],
+        output: {
+          format: "image",
+          imageFormat: "jpg",
+          quality: "high",
+          width: 1080,
+          height: 1080,
+          backgroundColor: "#FFFFFF" // Optional: set if you want a specific background color
+        }
+      };
 
-    while (attempts < this.CONFIG.maxAttempts) {
       try {
-        if (lastError?.message.includes('ETIMEDOUT') && attempts > 0) {
-          console.log('Previous timeout errors detected, falling back to local processing...');
+        const renderId = await this.initiateRender(renderPayload);
+        const result = await this.waitForRenderComplete(renderId);
+        return result.replace(/\.mp4$/, '.jpg');
+      } catch (error) {
+        if (error instanceof Error &&
+          (error.message.includes('ETIMEDOUT') || error.message.includes('Connection timeout'))) {
+          console.log('API processing timed out, switching to local processing...');
           return await this.processImageLocally(
             mergeFields.bgImage,
             mergeFields.userImage,
             mergeFields
           );
         }
-
-        console.log(`Attempt ${attempts + 1}: Using Shotstack API...`);
-
-        const images = await Promise.all([
-          this.ingestUrl(mergeFields.bgImage),
-          this.ingestUrl(mergeFields.userImage)
-        ]);
-
-        const renderPayload = {
-          id: CONFIG.shotstack.templateId,
-          merge: [
-            { find: "backgroundImage", replace: images[0] },
-            { find: "userImage", replace: images[1] },
-            { find: "paraName", replace: mergeFields.paraName || 'Untitled Para' },
-            { find: "paraDescription", replace: mergeFields.paraDescription || '' },
-            { find: "pincode", replace: mergeFields.pincode || '' }
-          ],
-          output: {
-            // Change format specification to explicitly request image
-            format: "image",
-            imageFormat: "jpg",
-            quality: "high",
-            width: 1920,
-            height: 1080
-          }
-        };
-
-        const renderId = await this.initiateRender(renderPayload);
-        const result = await this.waitForRenderComplete(renderId);
-
-        // Convert video URL to image URL if needed
-        return result.replace(/\.mp4$/, '.jpg');
-      } catch (error) {
-        console.error(`Attempt ${attempts + 1} failed:`, error);
-        lastError = error as Error;
-        attempts++;
-
-        if (attempts < this.CONFIG.maxAttempts) {
-          const delay = Math.min(
-            1500 * Math.pow(1.5, attempts),
-            20000
-          );
-          await new Promise(resolve => setTimeout(resolve, delay));
-        }
+        throw error;
       }
+    } catch (error) {
+      console.log('API processing failed, falling back to local processing:', error);
+      return await this.processImageLocally(
+        mergeFields.bgImage,
+        mergeFields.userImage,
+        mergeFields
+      );
+    }
+  }
+
+  // Add this to the ShotstackService class
+  private static async handleShotstackError(error: any, context: string): Promise<never> {
+    const errorContext = {
+      timestamp: new Date().toISOString(),
+      context,
+      originalError: error
+    };
+
+    if (error instanceof APIError) {
+      // Log but rethrow API errors
+      console.error(`Shotstack ${context} error:`, error);
+      throw error;
     }
 
-    // Fall back to local processing if all API attempts failed
-    console.log('All API attempts failed, falling back to local processing...');
-    return await this.processImageLocally(
-      mergeFields.bgImage,
-      mergeFields.userImage,
-      mergeFields
-    );
+    // Network errors
+    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+      throw new APIError('Network connection error', errorContext);
+    }
+
+    // Timeout errors
+    if (error.name === 'AbortError' || error.message.includes('ETIMEDOUT')) {
+      throw new APIError('Request timeout', errorContext);
+    }
+
+    // Generic error with context
+    throw new APIError(`Shotstack ${context} failed`, errorContext);
   }
 }
 
