@@ -20,6 +20,14 @@ interface ProcessingConfig {
     redirect: 'follow';
     referrerPolicy: 'no-referrer';
   };
+  dimensions: {
+    width: number;
+    height: number;
+  };
+  quality: {
+    compression: number;
+    preview: number;
+  };
 }
 
 interface ImageValidationResult {
@@ -383,15 +391,15 @@ export const generateParaImage = async (
 
 export class ShotstackService {
   private static readonly CONFIG: ProcessingConfig = {
-    maxAttempts: 5,  // Increased for better reliability
+    maxAttempts: 3,  // Reduced from 5
     timeouts: {
-      request: 20000,
-      processing: 30000,
-      render: 45000
+      request: 5000,    // Reduced from 20000
+      processing: 10000, // Reduced from 30000
+      render: 15000     // Reduced from 45000
     },
     intervals: {
-      initial: 1500,
-      max: 8000
+      initial: 1000,   // Reduced from 1500
+      max: 5000       // Reduced from 8000
     },
     fetchOptions: {
       mode: 'cors',
@@ -399,6 +407,14 @@ export class ShotstackService {
       credentials: 'same-origin',
       redirect: 'follow',
       referrerPolicy: 'no-referrer'
+    },
+    dimensions: {
+      width: 1080,
+      height: 1080
+    },
+    quality: {
+      compression: 0.9,
+      preview: 0.5
     }
   };
 
@@ -432,116 +448,209 @@ export class ShotstackService {
     };
   }
 
+  // In ShotstackService class within api.ts
+
   private static async processImageLocally(
     bgImage: string,
     userImage: string,
-    mergeFields: ShotstackMergeFields
-  ): Promise<string> {
+    mergeFields: ShotstackMergeFields,
+    onProgress?: (progress: number) => void
+  ): Promise<{ preview: string; final: string }> {
     try {
       console.log('Starting local image processing...');
       const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
       if (!ctx) throw new Error('Canvas context not available');
 
-      canvas.width = 1080;
-      canvas.height = 1080;
+      // Set initial canvas dimensions
+      canvas.width = this.CONFIG.dimensions.width;
+      canvas.height = this.CONFIG.dimensions.height;
 
-      const loadImage = async (url: string): Promise<HTMLImageElement> => {
+      const loadImage = async (url: string, timeout = 5000): Promise<HTMLImageElement> => {
+        console.log('Loading image:', url);
         return new Promise((resolve, reject) => {
           const img = new Image();
           img.crossOrigin = 'anonymous';
-          const timeout = setTimeout(() => reject(new Error('Image load timeout')), 30000);
+          const timeoutId = setTimeout(() => reject(new Error('Image load timeout')), timeout);
+
           img.onload = () => {
-            clearTimeout(timeout);
+            clearTimeout(timeoutId);
+            console.log('Image loaded successfully:', url);
             resolve(img);
           };
-          img.onerror = () => {
-            clearTimeout(timeout);
-            reject(new Error('Image load failed'));
+
+          img.onerror = (error) => {
+            clearTimeout(timeoutId);
+            console.error('Image load failed:', url, error);
+            reject(new Error(`Failed to load image: ${url}`));
           };
+
           img.src = url;
         });
       };
 
-      console.log('Loading images...');
-      const [bgImg, userImg] = await Promise.all([
-        loadImage(bgImage).then(img => {
-          console.log('Background image loaded');
-          return img;
-        }),
-        loadImage(userImage).then(img => {
-          console.log('User image loaded');
-          return img;
-        })
-      ]);
+      // Load all required images
+      onProgress?.(0.1);
+      console.log('Loading all required images...');
 
-      console.log('Processing background...');
+      // Load all images in parallel
+      const [bgImg, userImg, frameImg] = await Promise.all([
+        loadImage(bgImage),
+        loadImage(userImage),
+        loadImage('/frames/Frame_2.png')
+      ]).catch(error => {
+        console.error('Failed to load images:', error);
+        throw new Error('Failed to load one or more images');
+      });
+
+      onProgress?.(0.3);
+      console.log('All images loaded successfully');
+
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 1. Draw background image
+      console.log('Drawing background image...');
       ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+      // 2. Add red translucent overlay
+      ctx.fillStyle = 'rgba(255, 80, 80, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+      onProgress?.(0.4);
 
+      // 3. Draw user image with transparency
       console.log('Processing user image...');
+      let processedUserImage: HTMLImageElement;
+      try {
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
+        if (!tempCtx) throw new Error('Temp canvas context not available');
+
+        tempCanvas.width = userImg.width;
+        tempCanvas.height = userImg.height;
+
+        // Draw original image to temp canvas
+        tempCtx.drawImage(userImg, 0, 0);
+
+        // Get image data for processing
+        const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+        const data = imageData.data;
+
+        // Process pixels to handle transparency
+        for (let i = 0; i < data.length; i += 4) {
+          const isBlackOrDark = data[i] <= 10 && data[i + 1] <= 10 && data[i + 2] <= 10;
+          if (isBlackOrDark) {
+            data[i + 3] = 0; // Set alpha to 0 for transparent pixels
+          }
+        }
+
+        tempCtx.putImageData(imageData, 0, 0);
+        processedUserImage = await loadImage(tempCanvas.toDataURL('image/png'));
+        console.log('User image processed successfully');
+      } catch (error) {
+        console.warn('Failed to process transparency, using original image:', error);
+        processedUserImage = userImg;
+      }
+      onProgress?.(0.6);
+
+      // Calculate dimensions for centered user image
       const scale = Math.min(
-        (canvas.width * 0.8) / userImg.width,
-        (canvas.height * 0.8) / userImg.height
+        (canvas.width * 0.8) / processedUserImage.width,
+        (canvas.height * 0.8) / processedUserImage.height
       );
-      const x = (canvas.width - userImg.width * scale) / 2;
-      const y = (canvas.height - userImg.height * scale) / 2;
+      const x = (canvas.width - processedUserImage.width * scale) / 2;
+      const y = (canvas.height - processedUserImage.height * scale) / 2;
 
-      ctx.drawImage(userImg, x, y, userImg.width * scale, userImg.height * scale);
+      // Draw processed user image
+      ctx.drawImage(
+        processedUserImage,
+        x, y,
+        processedUserImage.width * scale,
+        processedUserImage.height * scale
+      );
+      onProgress?.(0.7);
 
+      // 4. Draw frame overlay (which includes #IamKolkata2.0 text)
+      console.log('Drawing frame overlay...');
+      ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height);
+      onProgress?.(0.8);
+
+      // 5. Add text overlays
       console.log('Adding text overlays...');
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      // Para name
-      ctx.font = 'bold 56px Arial';
-      ctx.fillStyle = '#FFFFFF';
+      // Para name in red with adjusted position (moved up)
+      ctx.font = 'bold 64px Arial';
+      ctx.fillStyle = '#FF0000';  // Red color
       ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
       ctx.shadowBlur = 6;
       ctx.shadowOffsetX = 2;
       ctx.shadowOffsetY = 2;
-      ctx.fillText(mergeFields.paraName || 'Untitled Para', canvas.width / 2, 80);
 
-      // Description
-      ctx.font = '28px Arial';
-      ctx.shadowBlur = 4;
-      ctx.shadowOffsetX = 1;
-      ctx.shadowOffsetY = 1;
+      // Position para name higher
+      const paraName = mergeFields.paraName || '';
+      const paraNameY = canvas.height - 200;
+      ctx.fillText(paraName, canvas.width / 2, paraNameY);
 
-      const wrapText = (text: string, maxWidth: number, lineHeight: number): void => {
-        const words = text.split(' ');
+      // Description text in black with proper spacing
+      if (mergeFields.paraDescription) {
+        ctx.font = '28px Arial';
+        ctx.fillStyle = '#000000';  // Black color
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+
+        const words = mergeFields.paraDescription.split(' ');
         let line = '';
-        let y = canvas.height - 180;
+        let y = paraNameY + 60;  // Add more space between para name and description
+        const lineHeight = 32;
+        const maxWidth = canvas.width - 100;
 
-        words.forEach(word => {
+        for (const word of words) {
           const testLine = line + word + ' ';
           const metrics = ctx.measureText(testLine);
 
           if (metrics.width > maxWidth && line !== '') {
-            ctx.fillText(line, canvas.width / 2, y);
+            ctx.fillText(line.trim(), canvas.width / 2, y);
             line = word + ' ';
             y += lineHeight;
           } else {
             line = testLine;
           }
-        });
+        }
+        ctx.fillText(line.trim(), canvas.width / 2, y);
+      }
 
-        ctx.fillText(line, canvas.width / 2, y);
+      // Pincode display at the bottom in black
+      if (mergeFields.pincode) {
+        ctx.font = '24px Arial';
+        ctx.fillStyle = '#000000';  // Black color
+        ctx.fillText(`Pincode: ${mergeFields.pincode}`, canvas.width / 2, canvas.height - 40);
+      }
+
+      // Reset shadow effects
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      onProgress?.(0.9);
+
+      // Generate final image
+      console.log('Generating final image...');
+      const final = canvas.toDataURL('image/png', this.CONFIG.quality.compression);
+      onProgress?.(1.0);
+      console.log('Local image processing completed successfully');
+
+      return {
+        preview: final,
+        final
       };
-
-      wrapText(mergeFields.paraDescription || '', canvas.width - 120, 36);
-
-      console.log('Finalizing image processing...');
-      return canvas.toDataURL('image/jpeg', 0.9); // Changed to JPEG with high quality
     } catch (error) {
-      console.error('Local processing error:', error);
-      throw new APIError('Failed to process image locally', { cause: error });
+      console.error('Local image processing failed:', error);
+      throw new Error('Failed to process image locally: ' + error);
     }
   }
-
-  // Complete replacement for ingestUrl function
   // Complete replacement for ingestUrl function
   private static async ingestUrl(url: string): Promise<string> {
     const controller = new AbortController();
@@ -558,9 +667,6 @@ export class ShotstackService {
         },
         body: JSON.stringify({
           url,
-          options: {
-            format: url.toLowerCase().endsWith('.png') ? 'png' : 'jpg'
-          }
         }),
         signal: controller.signal
       });
@@ -838,86 +944,67 @@ export class ShotstackService {
     throw new APIError('Render timeout after maximum attempts');
   }
 
-  public static async renderParaPortrait(mergeFields: ShotstackMergeFields): Promise<string> {
-    console.log('Rendering para portrait with merge fields:', {
-      paraName: mergeFields.paraName,
-      paraDescription: mergeFields.paraDescription,
-      pincode: mergeFields.pincode
-    });
-
+  public static async renderParaPortrait(
+    mergeFields: ShotstackMergeFields,
+    onProgress?: (progress: number) => void
+  ): Promise<string> {
     if (!mergeFields.bgImage || !mergeFields.userImage) {
       throw new APIError('Missing required image URLs');
     }
 
+    // Try local processing first
     try {
-      console.log('Attempting Shotstack API processing...');
-      const images = await Promise.all([
-        this.ingestUrl(mergeFields.bgImage),
-        this.ingestUrl(mergeFields.userImage)
-      ]).catch(error => {
-        if (error instanceof Error && error.message.includes('ETIMEDOUT')) {
-          throw new APIError('Connection timeout during image ingestion');
-        }
-        throw error;
-      });
+      console.log('Attempting local processing...');
+      const { final } = await this.processImageLocally(
+        mergeFields.bgImage,
+        mergeFields.userImage,
+        mergeFields,
+        onProgress
+      );
+      return final;
+    } catch (localError) {
+      console.warn('Local processing failed, falling back to Shotstack:', localError);
 
-      // Part of renderParaPortrait function where we create the renderPayload
-      const renderPayload = {
-        id: CONFIG.shotstack.templateId,
-        merge: [
-          {
-            find: "backgroundImage",
-            replace: images[0],
-            options: {
-              imageFormat: "jpg",
-              quality: "high"
-            }
-          },
-          {
-            find: "userImage",
-            replace: images[1],
-            options: {
-              imageFormat: "png", // Ensure PNG for user image to preserve transparency
-              quality: "high"
-            }
-          },
-          { find: "paraName", replace: mergeFields.paraName || 'Untitled Para' },
-          { find: "paraDescription", replace: mergeFields.paraDescription || '' },
-          { find: "pincode", replace: mergeFields.pincode || '' }
-        ],
-        output: {
-          format: "image",
-          imageFormat: "jpg",
-          quality: "high",
-          width: 1080,
-          height: 1080,
-          backgroundColor: "#FFFFFF" // Optional: set if you want a specific background color
-        }
-      };
-
+      // Fall back to Shotstack
       try {
+        const images = await Promise.all([
+          this.ingestUrl(mergeFields.bgImage),
+          this.ingestUrl(mergeFields.userImage)
+        ]);
+
+        const renderPayload = {
+          id: CONFIG.shotstack.templateId,
+          merge: [
+            {
+              find: "backgroundImage",
+              replace: images[0],
+              options: { imageFormat: "jpg", quality: "high" }
+            },
+            {
+              find: "userImage",
+              replace: images[1],
+              options: { imageFormat: "png", quality: "high" }
+            },
+            { find: "paraName", replace: mergeFields.paraName || 'Untitled Para' },
+            { find: "paraDescription", replace: mergeFields.paraDescription || '' },
+            { find: "pincode", replace: mergeFields.pincode || '' }
+          ],
+          output: {
+            format: "image",
+            imageFormat: "jpg",
+            quality: "high",
+            width: this.CONFIG.dimensions.width,
+            height: this.CONFIG.dimensions.height
+          }
+        };
+
         const renderId = await this.initiateRender(renderPayload);
         const result = await this.waitForRenderComplete(renderId);
         return result.replace(/\.mp4$/, '.jpg');
-      } catch (error) {
-        if (error instanceof Error &&
-          (error.message.includes('ETIMEDOUT') || error.message.includes('Connection timeout'))) {
-          console.log('API processing timed out, switching to local processing...');
-          return await this.processImageLocally(
-            mergeFields.bgImage,
-            mergeFields.userImage,
-            mergeFields
-          );
-        }
-        throw error;
+      } catch (shotstackError) {
+        console.error('Shotstack processing failed:', shotstackError);
+        throw new Error('Image processing failed. Please try again.');
       }
-    } catch (error) {
-      console.log('API processing failed, falling back to local processing:', error);
-      return await this.processImageLocally(
-        mergeFields.bgImage,
-        mergeFields.userImage,
-        mergeFields
-      );
     }
   }
 

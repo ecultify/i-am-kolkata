@@ -4,6 +4,7 @@ import { ArrowLeft, Upload, Download, Share2, Loader2, Image as ImageIcon } from
 import { generateParaImage, removeBg, uploadToImgBB, ShotstackService } from '../utils/api';
 import { Location, Experience } from '../types';
 import { ShotstackMergeFields } from '../types/shotstack';
+import { useStore } from '../store/useStore';
 
 interface LocationState {
   experiences: Experience[];
@@ -18,66 +19,53 @@ export const ImageGeneration: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [processingStep, setProcessingStep] = useState<string>('');
-  
+  const [progress, setProgress] = useState(0);
+  const [showReturnPrompt, setShowReturnPrompt] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as LocationState | null;
+  const store = useStore();
 
   useEffect(() => {
-    if (!state) {
-      navigate('/');
+    // Check for data availability
+    if (!state && !store.paraName) {
+      console.warn('No data available, redirecting to main page');
+      navigate('/', { replace: true });
+      return;
     }
-  }, [state, navigate]);
 
-  const applyTranslucentMask = async (imageUrl: string): Promise<string> => {
-    try {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-        img.src = imageUrl;
-      });
-
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      
-      if (!ctx) throw new Error('Could not get canvas context');
-
-      ctx.drawImage(img, 0, 0);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      return canvas.toDataURL('image/png');
-    } catch (error) {
-      console.error('Error applying mask:', error);
-      throw new Error('Failed to apply translucent mask');
+    // Use store data if router state is missing
+    if (!state && store.paraName) {
+      console.log('Recovering data from store');
     }
-  };
+  }, [state, store.paraName, navigate]);
 
   const generateScene = async (): Promise<string> => {
-    if (!state) throw new Error('No state available');
-    
+    const paraData = state || {
+      experiences: store.experiences,
+      location: store.location,
+      paraName: store.paraName,
+      generatedContent: store.generatedContent
+    };
+
+    if (!paraData.location || !paraData.paraName) {
+      throw new Error('Required data is missing');
+    }
+
     try {
       setProcessingStep('Generating para scene...');
-      
-      // Filter out empty experiences and extract unique tags
-      const validExperiences = state.experiences.filter(exp => exp?.content && exp.content.trim() !== '');
+      const validExperiences = paraData.experiences.filter(exp => exp?.content && exp.content.trim() !== '');
       const uniqueTags = Array.from(new Set(validExperiences.map(exp => exp.tag).filter(Boolean)));
       
       const sceneImage = await generateParaImage(
         uniqueTags as string[],
         validExperiences,
-        state.location
+        paraData.location
       );
-      
+
       setProcessingStep('Processing scene...');
-      const maskedScene = await applyTranslucentMask(sceneImage);
-      
-      setProcessingStep('Optimizing scene...');
-      const maskedSceneUrl = await uploadToImgBB(maskedScene);
+      const maskedSceneUrl = await uploadToImgBB(sceneImage);
       return maskedSceneUrl;
     } catch (error: any) {
       throw new Error('Failed to generate para scene: ' + error.message);
@@ -88,17 +76,17 @@ export const ImageGeneration: React.FC = () => {
     try {
       setProcessingStep('Removing background...');
       const removedBgImage = await removeBg(file);
-      
+
       setProcessingStep('Optimizing portrait...');
       const response = await fetch(removedBgImage);
       const blob = await response.blob();
-      
+
       const base64 = await new Promise<string>((resolve) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result as string);
         reader.readAsDataURL(blob);
       });
-      
+
       const userImageUrl = await uploadToImgBB(base64);
       return userImageUrl;
     } catch (error: any) {
@@ -107,26 +95,41 @@ export const ImageGeneration: React.FC = () => {
   };
 
   const generateFinalPortrait = async (bgImageUrl: string, userImageUrl: string) => {
-    if (!state) throw new Error('No state available');
-  
+    const paraData = state || {
+      experiences: store.experiences,
+      location: store.location,
+      paraName: store.paraName,
+      generatedContent: store.generatedContent
+    };
+
+    if (!paraData.paraName) throw new Error('Para data not available');
+
     try {
       setProcessingStep('Creating final composition...');
-      
-      // Create a description that combines experiences for a richer portrait
-      const validExperiences = state.experiences
+      const validExperiences = paraData.experiences
         .filter(exp => exp?.content && exp.content.trim() !== '')
         .map(exp => exp.content.trim())
         .join('. ');
-  
+
       const mergeFields: Required<ShotstackMergeFields> = {
         bgImage: bgImageUrl,
         userImage: userImageUrl,
-        paraName: state.paraName || 'Untitled Para',
-        paraDescription: validExperiences || state.generatedContent || '',
-        pincode: state.location.pincode || ''
+        paraName: paraData.paraName,
+        paraDescription: validExperiences || paraData.generatedContent || '',
+        pincode: paraData.location.pincode || ''
       };
-  
-      const finalImageUrl = await ShotstackService.renderParaPortrait(mergeFields);
+
+      const finalImageUrl = await ShotstackService.renderParaPortrait(
+        mergeFields,
+        (progress) => {
+          setProgress(progress * 100);
+          setProcessingStep(
+            progress < 1
+              ? `Processing image... ${Math.round(progress * 100)}%`
+              : 'Finalizing...'
+          );
+        }
+      );
       setFinalImage(finalImageUrl);
     } catch (error: any) {
       throw new Error('Failed to generate final portrait: ' + error.message);
@@ -141,8 +144,8 @@ export const ImageGeneration: React.FC = () => {
       setLoading(true);
       setError(null);
       setUserImage(file);
+      setProgress(0);
 
-      // Generate and process all images in parallel
       const [bgImageUrl, userImageUrl] = await Promise.all([
         generateScene().catch(error => {
           throw new Error(`Failed to generate scene: ${error.message}`);
@@ -152,7 +155,6 @@ export const ImageGeneration: React.FC = () => {
         })
       ]);
 
-      // Generate final composition
       await generateFinalPortrait(bgImageUrl, userImageUrl);
     } catch (error: any) {
       let errorMessage = 'Failed to create portrait. ';
@@ -166,12 +168,13 @@ export const ImageGeneration: React.FC = () => {
       } else {
         errorMessage += error.message || 'Please try again.';
       }
-      
+
       setError(errorMessage);
       console.error('Image generation error:', error);
     } finally {
       setLoading(false);
       setProcessingStep('');
+      setProgress(0);
     }
   };
 
@@ -184,6 +187,7 @@ export const ImageGeneration: React.FC = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    setShowReturnPrompt(true);
   };
 
   const handleShare = async () => {
@@ -192,13 +196,14 @@ export const ImageGeneration: React.FC = () => {
     try {
       const blob = await fetch(finalImage).then(r => r.blob());
       const file = new File([blob], 'para-portrait.png', { type: 'image/png' });
-      
+
       if (navigator.share) {
         await navigator.share({
           files: [file],
-          title: `${state?.paraName || 'My Para'} Portrait`,
+          title: `${state?.paraName || store.paraName || 'My Para'} Portrait`,
           text: `Check out my para portrait from I Am Kolkata!`
         });
+        setShowReturnPrompt(true);
       } else {
         throw new Error('Sharing not supported on this device');
       }
@@ -206,6 +211,11 @@ export const ImageGeneration: React.FC = () => {
       console.error('Error sharing:', error);
       handleDownload();
     }
+  };
+
+  const handleReturn = () => {
+    store.clearForm();
+    navigate('/', { replace: true });
   };
 
   return (
@@ -270,9 +280,9 @@ export const ImageGeneration: React.FC = () => {
             <div className="space-y-6">
               {finalImage && (
                 <div>
-                  <img 
-                    src={finalImage} 
-                    alt="Final Para Portrait" 
+                  <img
+                    src={finalImage}
+                    alt="Final Para Portrait"
                     className="w-full rounded-lg shadow-lg"
                   />
                   <div className="flex justify-center space-x-4 mt-6">
@@ -303,6 +313,14 @@ export const ImageGeneration: React.FC = () => {
               <div className="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center space-y-4">
                 <Loader2 className="w-6 h-6 animate-spin text-rose-600" />
                 <p className="text-lg font-medium">{processingStep}</p>
+                {progress > 0 && (
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-rose-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -310,6 +328,26 @@ export const ImageGeneration: React.FC = () => {
           {error && (
             <div className="mt-4 p-4 bg-red-50 text-red-600 rounded-md">
               {error}
+            </div>
+          )}
+
+          {showReturnPrompt && (
+            <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-lg z-50">
+              <p className="text-gray-800 mb-4">Would you like to create another para story?</p>
+              <div className="flex justify-center space-x-4">
+                <button
+                  onClick={handleReturn}
+                  className="px-4 py-2 bg-rose-600 text-white rounded hover:bg-rose-700"
+                >
+                  Return to Main Page
+                </button>
+                <button
+                  onClick={() => setShowReturnPrompt(false)}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                >
+                  Stay Here
+                </button>
+              </div>
             </div>
           )}
         </div>

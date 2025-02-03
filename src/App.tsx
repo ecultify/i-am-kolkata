@@ -28,10 +28,12 @@ function MainPage() {
     selectedTags,
     experiences,
     generatedContent,
+    entries,
     user,
     addEntry,
     clearForm,
-    setUser
+    setUser,
+    setImageGenerationData
   } = useStore();
 
   useEffect(() => {
@@ -82,7 +84,7 @@ function MainPage() {
 
       if (error) throw error;
 
-      addEntry({
+      const newEntry = {
         id: data.id,
         paraName,
         location,
@@ -90,6 +92,16 @@ function MainPage() {
         experiences: validExperiences,
         generatedContent,
         timestamp: Date.now()
+      };
+
+      addEntry(newEntry);
+
+      // Store current entry data for image generation before clearing form
+      setImageGenerationData({
+        paraName,
+        experiences: validExperiences,
+        location,
+        generatedContent
       });
 
       // Clear the form immediately after successful save
@@ -110,20 +122,37 @@ function MainPage() {
   };
 
   const handleMaybeLater = () => {
-    setShowSuccessModal(false); // Close the modal
-    setShowToast(true);
-    setToastMessage('Want to create a visual portrait of your para?');
+    setShowSuccessModal(false);
+    if (entries.length > 0) {
+      setShowToast(true);
+      setToastMessage('Want to create a visual portrait of your para?');
+    }
   };
 
   const handleCreateImage = () => {
-    setShowSuccessModal(false); // Also close modal when navigating
+    const mostRecentEntry = entries[0];
+    
+    if (!mostRecentEntry) {
+      alert('Please create and save your para entry first');
+      return;
+    }
+
+    setShowSuccessModal(false);
+    
+    setImageGenerationData({
+      paraName: mostRecentEntry.paraName,
+      experiences: mostRecentEntry.experiences,
+      location: mostRecentEntry.location,
+      generatedContent: mostRecentEntry.generatedContent
+    });
+
     navigate('/image-generation', {
       state: {
-        tags: selectedTags,
-        experiences: experiences.filter(exp => exp.content.trim().length > 0),
-        location,
-        paraName,
-        generatedContent
+        tags: mostRecentEntry.tags,
+        experiences: mostRecentEntry.experiences,
+        location: mostRecentEntry.location,
+        paraName: mostRecentEntry.paraName,
+        generatedContent: mostRecentEntry.generatedContent
       }
     });
   };

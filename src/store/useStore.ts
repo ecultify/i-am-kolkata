@@ -2,6 +2,13 @@ import { create } from 'zustand';
 import { Location, Experience, ParaEntry } from '../types';
 import { User } from '@supabase/supabase-js';
 
+interface ImageGenerationData {
+  paraName: string;
+  experiences: Experience[];
+  location: Location;
+  generatedContent: string;
+}
+
 interface State {
   location: Location;
   tags: string[];
@@ -21,6 +28,7 @@ interface State {
   addEntry: (entry: ParaEntry) => void;
   clearForm: () => void;
   setUser: (user: User | null) => void;
+  setImageGenerationData: (data: ImageGenerationData) => void;
 }
 
 const initialState = {
@@ -108,5 +116,12 @@ export const useStore = create<State>((set) => ({
     user: state.user
   })),
 
-  setUser: (user) => set({ user })
+  setUser: (user) => set({ user }),
+
+  setImageGenerationData: (data) => set({
+    paraName: data.paraName,
+    experiences: data.experiences,
+    location: data.location,
+    generatedContent: data.generatedContent
+  })
 }));
