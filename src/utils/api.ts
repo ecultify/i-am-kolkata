@@ -69,7 +69,11 @@ const CONFIG = {
   },
   imgbb: {
     apiKey: requiredEnvVars.IMGBB_API_KEY,
-    endpoint: '/imgbb-api/upload'
+    endpoint: '/imgbb-api/upload',
+    headers: {
+      'Accept': 'application/json',
+      'Cache-Control': 'no-cache'
+    }
   }
 } as const;
 
@@ -208,7 +212,7 @@ export const uploadToImgBB = async (imageData: string, retries = 3): Promise<str
     return canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
   };
 
-  for (let attempt = 0; attempt < retries; attempt++) {
+  const uploadWithRetry = async (attempt: number = 0): Promise<string> => {
     try {
       const base64Image = imageData.includes('data:image')
         ? imageData.split(',')[1]
@@ -220,18 +224,15 @@ export const uploadToImgBB = async (imageData: string, retries = 3): Promise<str
       formData.append('key', CONFIG.imgbb.apiKey);
       formData.append('image', compressedImage);
 
-      const response = await fetch(`${CONFIG.imgbb.endpoint}`, {
+      const response = await fetch('https://api.imgbb.com/1/upload', {
         method: 'POST',
         body: formData,
-        headers: {
-          'Accept': 'application/json',
-        }
       });
 
       if (!response.ok) {
         const errorText = await response.text();
         console.error('ImgBB error:', errorText);
-        throw new Error(`Upload failed: ${response.statusText}`);
+        throw new Error(`Upload failed (${response.status}): ${response.statusText}`);
       }
 
       const data = await response.json();
@@ -245,16 +246,23 @@ export const uploadToImgBB = async (imageData: string, retries = 3): Promise<str
         throw new Error('No image URL in response');
       }
 
-      // Return without validation
       return imageUrl.replace(/^https?:\/\/ibb.co\//, 'https://i.ibb.co/');
     } catch (error) {
       console.error(`Attempt ${attempt + 1} failed:`, error);
-      if (attempt === retries - 1) throw error;
-      await delay(Math.pow(2, attempt) * 1000);
-    }
-  }
+      
+      if (attempt >= retries - 1) {
+        throw error;
+      }
 
-  throw new Error('Maximum retry attempts reached');
+      // Exponential backoff with jitter
+      const delay = Math.min(1000 * Math.pow(2, attempt) * (0.5 + Math.random()), 8000);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      
+      return uploadWithRetry(attempt + 1);
+    }
+  };
+
+  return uploadWithRetry();
 };
 
 export const fetchTags = async (pincode: string): Promise<string[]> => {

@@ -28,18 +28,79 @@ export const ImageGeneration: React.FC = () => {
   const store = useStore();
 
   useEffect(() => {
-    // Check for data availability
     if (!state && !store.paraName) {
       console.warn('No data available, redirecting to main page');
       navigate('/', { replace: true });
       return;
     }
 
-    // Use store data if router state is missing
     if (!state && store.paraName) {
       console.log('Recovering data from store');
     }
   }, [state, store.paraName, navigate]);
+
+  const processImageWithFallback = async (file: File): Promise<string> => {
+    const processLocally = async (imageData: string): Promise<string> => {
+      try {
+        const img = new Image();
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        if (!ctx) {
+          throw new Error('Could not get canvas context');
+        }
+
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = imageData;
+        });
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        // Draw image with white background
+        ctx.fillStyle = '#FFFFFF';  // No optional chaining needed now
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+
+        return canvas.toDataURL('image/png');
+      } catch (error) {
+        throw new Error('Local processing failed: ' + error);
+      }
+    };
+
+    try {
+      setProcessingStep('Removing background...');
+      // Try remove.bg first
+      const removedBgUrl = await removeBg(file);
+      const response = await fetch(removedBgUrl);
+      const blob = await response.blob();
+      const base64 = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(blob);
+      });
+
+      try {
+        setProcessingStep('Optimizing portrait...');
+        // Try uploading to ImgBB
+        return await uploadToImgBB(base64);
+      } catch (imgbbError) {
+        console.warn('ImgBB upload failed, falling back to local processing:', imgbbError);
+        return await processLocally(base64);
+      }
+    } catch (error) {
+      console.warn('Background removal failed, falling back to original image:', error);
+      // If background removal fails, process the original image
+      const base64 = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+      return await processLocally(base64);
+    }
+  };
 
   const generateScene = async (): Promise<string> => {
     const paraData = state || {
@@ -57,7 +118,7 @@ export const ImageGeneration: React.FC = () => {
       setProcessingStep('Generating para scene...');
       const validExperiences = paraData.experiences.filter(exp => exp?.content && exp.content.trim() !== '');
       const uniqueTags = Array.from(new Set(validExperiences.map(exp => exp.tag).filter(Boolean)));
-      
+
       const sceneImage = await generateParaImage(
         uniqueTags as string[],
         validExperiences,
@@ -65,32 +126,15 @@ export const ImageGeneration: React.FC = () => {
       );
 
       setProcessingStep('Processing scene...');
-      const maskedSceneUrl = await uploadToImgBB(sceneImage);
-      return maskedSceneUrl;
+      try {
+        const maskedSceneUrl = await uploadToImgBB(sceneImage);
+        return maskedSceneUrl;
+      } catch (uploadError) {
+        console.warn('Scene upload failed, using base64:', uploadError);
+        return sceneImage;
+      }
     } catch (error: any) {
       throw new Error('Failed to generate para scene: ' + error.message);
-    }
-  };
-
-  const processUserImage = async (file: File): Promise<string> => {
-    try {
-      setProcessingStep('Removing background...');
-      const removedBgImage = await removeBg(file);
-
-      setProcessingStep('Optimizing portrait...');
-      const response = await fetch(removedBgImage);
-      const blob = await response.blob();
-
-      const base64 = await new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.readAsDataURL(blob);
-      });
-
-      const userImageUrl = await uploadToImgBB(base64);
-      return userImageUrl;
-    } catch (error: any) {
-      throw new Error('Failed to process user image: ' + error.message);
     }
   };
 
@@ -150,7 +194,7 @@ export const ImageGeneration: React.FC = () => {
         generateScene().catch(error => {
           throw new Error(`Failed to generate scene: ${error.message}`);
         }),
-        processUserImage(file).catch(error => {
+        processImageWithFallback(file).catch(error => {
           throw new Error(`Failed to process user image: ${error.message}`);
         })
       ]);
@@ -158,7 +202,7 @@ export const ImageGeneration: React.FC = () => {
       await generateFinalPortrait(bgImageUrl, userImageUrl);
     } catch (error: any) {
       let errorMessage = 'Failed to create portrait. ';
-      
+
       if (error.message.includes('ETIMEDOUT')) {
         errorMessage += 'Connection timed out. Please check your internet connection and try again.';
       } else if (error.message.includes('Failed to process user image')) {
@@ -355,3 +399,4 @@ export const ImageGeneration: React.FC = () => {
     </div>
   );
 };
+export default ImageGeneration;

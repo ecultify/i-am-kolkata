@@ -3,6 +3,13 @@
   publish = "dist"
 
 [[redirects]]
+  from = "/imgbb-api/*"
+  to = "https://api.imgbb.com/1/:splat"
+  status = 200
+  force = true
+  headers = {Accept = "application/json"}
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
