@@ -116,12 +116,9 @@ export const ImageGeneration: React.FC = () => {
 
     try {
       setProcessingStep('Generating para scene...');
-      const validExperiences = paraData.experiences.filter(exp => exp?.content && exp.content.trim() !== '');
-      const uniqueTags = Array.from(new Set(validExperiences.map(exp => exp.tag).filter(Boolean)));
-
+      
       const sceneImage = await generateParaImage(
-        uniqueTags as string[],
-        validExperiences,
+        paraData.generatedContent,
         paraData.location
       );
 
@@ -150,16 +147,12 @@ export const ImageGeneration: React.FC = () => {
 
     try {
       setProcessingStep('Creating final composition...');
-      const validExperiences = paraData.experiences
-        .filter(exp => exp?.content && exp.content.trim() !== '')
-        .map(exp => exp.content.trim())
-        .join('. ');
-
+      
       const mergeFields: Required<ShotstackMergeFields> = {
         bgImage: bgImageUrl,
         userImage: userImageUrl,
         paraName: paraData.paraName,
-        paraDescription: validExperiences || paraData.generatedContent || '',
+        paraDescription: paraData.generatedContent || '',
         pincode: paraData.location.pincode || ''
       };
 

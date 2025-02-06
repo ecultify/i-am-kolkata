@@ -351,19 +351,16 @@ export const generateContent = async (
 };
 
 export const generateParaImage = async (
-  _tags: string[],
-  experiences: Experience[],
+  description: string,
   location: Location
 ): Promise<string> => {
   try {
-    const validExperiences = experiences.filter(exp => exp.content.trim().length > 0);
-
     const prompt = `Create a photorealistic digital art of a vibrant Indian neighborhood scene in ${location.area}, Kolkata.
-                   Featured landmarks and elements:
-                   ${validExperiences.map(exp => `- ${exp.content}`).join('\n')}
+                   Scene description:
+                   ${description}
 
                    Scene requirements:
-                   - Create a balanced composition showing the specific landmarks mentioned
+                   - Create a balanced composition based on the description
                    - Include authentic Bengali architectural details
                    - Show natural community interaction and street life
                    - Use warm, golden-hour lighting
@@ -373,7 +370,7 @@ export const generateParaImage = async (
 
                    Style notes:
                    - Rich, warm colors that capture Kolkata's essence
-                   - Focus on architectural accuracy for the mentioned landmarks
+                   - Focus on architectural accuracy
                    - Natural street atmosphere with subtle environmental details`;
 
     const response = await CONFIG.openai.images.generate({
