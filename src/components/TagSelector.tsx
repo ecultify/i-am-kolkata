@@ -15,7 +15,6 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ hideTitle = false }) =
     location,
     tags,
     selectedTags,
-    experiences,
     setTags,
     addSelectedTag,
     removeSelectedTag
@@ -41,13 +40,15 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ hideTitle = false }) =
     loadTags();
   }, [location.pincode, setTags]);
 
-  // Find next available slot for a new tag
-  const canAddMore = experiences.filter(exp => exp?.content && exp.content.trim() !== '').length < 3;
+  // Update the selection limit logic
+  const canAddMore = selectedTags.length < 3;
 
   return (
-    <div>
+    <div className="space-y-4">
       {!hideTitle && (
-        <h2 className="text-lg font-semibold mb-4">Select Tags (max 3)</h2>
+        <h3 className="text-sm font-medium text-gray-700">
+          Select up to 3 features that best describe your para
+        </h3>
       )}
 
       {loading && (
@@ -57,45 +58,51 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ hideTitle = false }) =
       )}
 
       {error && (
-        <p className="text-sm text-red-600 mb-4">{error}</p>
+        <p className="text-sm text-red-600">{error}</p>
       )}
 
       {tags.length === 0 && !loading ? (
         <p className="text-sm text-gray-500 italic">
-          No tags available for this location
+          No features available for this location
         </p>
       ) : (
-        <div className="flex flex-wrap gap-2">
-          {tags.map((tag, index) => {
-            const isSelected = selectedTags.includes(tag);
-            const uniqueKey = `${tag}-${index}`;
-            return (
-              <button
-                key={uniqueKey}
-                onClick={() => isSelected ? removeSelectedTag(tag) : addSelectedTag(tag)}
-                disabled={!isSelected && !canAddMore}
-                className={`group relative flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-sm
-                           transition-all duration-200 ${
-                             isSelected
+        <div className="space-y-3">
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag, index) => {
+              const isSelected = selectedTags.includes(tag);
+              return (
+                <button
+                  key={`${tag}-${index}`}
+                  onClick={() => isSelected ? removeSelectedTag(tag) : addSelectedTag(tag)}
+                  disabled={!isSelected && !canAddMore}
+                  className={`group relative flex items-center space-x-1.5 px-3 py-1.5 
+                             rounded-full text-sm transition-all duration-200 
+                             ${isSelected
                                ? 'bg-rose-600 text-white hover:bg-rose-700'
                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                           } ${!isSelected && !canAddMore ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                {isSelected ? (
-                  <X className="w-3.5 h-3.5 flex-shrink-0" />
-                ) : (
-                  <Tag className="w-3.5 h-3.5 flex-shrink-0" />
-                )}
-                <span className="max-w-[150px] truncate">{tag}</span>
-              </button>
-            );
-          })}
+                             } ${!isSelected && !canAddMore ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {isSelected ? (
+                    <X className="w-3.5 h-3.5 flex-shrink-0" />
+                  ) : (
+                    <Tag className="w-3.5 h-3.5 flex-shrink-0" />
+                  )}
+                  <span className="max-w-[150px] truncate">{tag}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="text-sm text-gray-500 flex items-center justify-between">
+            <span>Selected features: {selectedTags.length}/3</span>
+            {selectedTags.length > 0 && (
+              <span className="text-rose-600">
+                Click generate to create your description
+              </span>
+            )}
+          </div>
         </div>
       )}
-
-      <div className="mt-4 text-sm text-gray-500">
-        Click a tag to add it to your para description. You can edit the text after adding.
-      </div>
     </div>
   );
 };
