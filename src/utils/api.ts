@@ -54,7 +54,7 @@ const CONFIG = {
     dangerouslyAllowBrowser: true
   }),
   bgRemove: {
-    apiKey: 'cNuV4JbjTeXTkPh3QCcP7LSG',
+    apiKey: 'f8HbJNxCzeaEJ5WQJM2CEv1u',
     apiUrl: 'https://api.remove.bg/v1.0/removebg'
   },
   shotstack: {
@@ -600,7 +600,7 @@ export class ShotstackService {
 
       // Description text in black with proper spacing
       if (mergeFields.paraDescription) {
-        ctx.font = '28px Arial';
+        ctx.font = '16px Arial';  // Reduced from 18px to 16px
         ctx.fillStyle = '#000000';  // Black color
         ctx.shadowBlur = 4;
         ctx.shadowOffsetX = 1;
@@ -608,22 +608,25 @@ export class ShotstackService {
 
         const words = mergeFields.paraDescription.split(' ');
         let line = '';
-        let y = paraNameY + 60;  // Add more space between para name and description
-        const lineHeight = 32;
-        const maxWidth = canvas.width - 100;
+        let y = paraNameY + 50;  // Start closer to para name (was 60)
+        const lineHeight = 20;   // Reduced from 22 to 20
+        const maxWidth = canvas.width - 160;  // Keep same margins
+        const maxY = canvas.height - 50;  // Increased space at bottom (was 80)
 
         for (const word of words) {
-          const testLine = line + word + ' ';
-          const metrics = ctx.measureText(testLine);
+            const testLine = line + word + ' ';
+            const metrics = ctx.measureText(testLine);
 
-          if (metrics.width > maxWidth && line !== '') {
-            ctx.fillText(line.trim(), canvas.width / 2, y);
-            line = word + ' ';
-            y += lineHeight;
-          } else {
-            line = testLine;
-          }
+            if (metrics.width > maxWidth && line !== '') {
+                ctx.fillText(line.trim(), canvas.width / 2, y);
+                line = word + ' ';
+                y += lineHeight;
+            } else {
+                line = testLine;
+            }
         }
+        
+        // Draw the last line
         ctx.fillText(line.trim(), canvas.width / 2, y);
       }
 
