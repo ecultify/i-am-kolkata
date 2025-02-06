@@ -50,7 +50,7 @@ export const ParaNameInput: React.FC = () => {
             type="text"
             value={paraName}
             onChange={(e) => handleChange(e.target.value)}
-            placeholder="Enter your para name"
+            placeholder="What is the name of your para"
             className="w-full px-3 py-2 border border-gray-300 rounded-md 
                      focus:ring-rose-500 focus:border-rose-500"
           />

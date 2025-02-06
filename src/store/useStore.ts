@@ -18,6 +18,8 @@ interface State {
   generatedContent: string;
   entries: ParaEntry[];
   user: User | null;
+  isAIMode: boolean;
+  manualDescription: string;
   setLocation: (location: Location) => void;
   setTags: (tags: string[]) => void;
   addSelectedTag: (tag: string) => void;
@@ -25,9 +27,11 @@ interface State {
   setExperience: (index: number, content: string, tag?: string) => void;
   setParaName: (name: string) => void;
   setGeneratedContent: (content: string) => void;
+  setManualDescription: (description: string) => void;
   addEntry: (entry: ParaEntry) => void;
   clearForm: () => void;
   setUser: (user: User | null) => void;
+  setIsAIMode: (isAIMode: boolean) => void;
   setImageGenerationData: (data: ImageGenerationData) => void;
 }
 
@@ -38,8 +42,10 @@ const initialState = {
   experiences: [],
   paraName: '',
   generatedContent: '',
+  manualDescription: '',
   entries: [],
   user: null,
+  isAIMode: false,
 };
 
 export const useStore = create<State>((set) => ({
@@ -62,7 +68,6 @@ export const useStore = create<State>((set) => ({
       if (targetIndex >= 3) return state;
       
       const newExperiences = [...state.experiences];
-      // Ensure tag is always defined
       newExperiences[targetIndex] = { content: tag, tag: tag } as Experience;
       
       return {
@@ -101,7 +106,18 @@ export const useStore = create<State>((set) => ({
     
   setParaName: (name) => set({ paraName: name }),
   
-  setGeneratedContent: (content) => set({ generatedContent: content }),
+  setGeneratedContent: (content) => set((state) => ({
+    generatedContent: content,
+    // If AI generates content, update the manual description as well
+    manualDescription: state.isAIMode ? content : state.manualDescription
+  })),
+
+  setManualDescription: (description) => set({ 
+    manualDescription: description,
+    generatedContent: description // Keep generated content in sync with manual input
+  }),
+  
+  setIsAIMode: (isAIMode) => set({ isAIMode }),
   
   addEntry: (entry) =>
     set((state) => ({
@@ -122,6 +138,7 @@ export const useStore = create<State>((set) => ({
     paraName: data.paraName,
     experiences: data.experiences,
     location: data.location,
-    generatedContent: data.generatedContent
+    generatedContent: data.generatedContent,
+    manualDescription: data.generatedContent // Sync manual description with generated content
   })
 }));

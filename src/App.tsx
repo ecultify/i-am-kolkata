@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import { Header } from './components/Header';
 import { LocationDetector } from './components/LocationDetector';
 import { ParaNameInput } from './components/ParaNameInput';
-import { ExperienceInputs } from './components/ExperienceInputs';
-import { GeneratedContent } from './components/GeneratedContent';
+import { ParaDescription } from './components/ParaDescription';
 import { RightPanel } from './components/RightPanel';
 import { OnboardingModal } from './components/OnboardingModal';
 import { ProgressBar } from './components/ProgressBar';
@@ -56,10 +55,9 @@ function MainPage() {
       return;
     }
 
-    // Validate experiences
-    const validExperiences = experiences.filter(exp => exp.content.trim().length > 0);
-    if (validExperiences.length === 0) {
-      alert('Please share at least one experience about your para');
+    // Validate description content
+    if (generatedContent.trim().length === 0) {
+      alert('Please provide a description of your para');
       return;
     }
 
@@ -76,7 +74,7 @@ function MainPage() {
           description: generatedContent,
           pincode: location.pincode,
           location: `POINT(${location.lng} ${location.lat})`,
-          tags: selectedTags.length > 0 ? selectedTags : validExperiences.map((_, i) => `Experience ${i + 1}`),
+          tags: selectedTags.length > 0 ? selectedTags : [],
           user_id: user.id
         })
         .select()
@@ -88,8 +86,8 @@ function MainPage() {
         id: data.id,
         paraName,
         location,
-        tags: selectedTags.length > 0 ? selectedTags : validExperiences.map((_, i) => `Experience ${i + 1}`),
-        experiences: validExperiences,
+        tags: selectedTags,
+        experiences,
         generatedContent,
         timestamp: Date.now()
       };
@@ -99,7 +97,7 @@ function MainPage() {
       // Store current entry data for image generation before clearing form
       setImageGenerationData({
         paraName,
-        experiences: validExperiences,
+        experiences,
         location,
         generatedContent
       });
@@ -131,14 +129,14 @@ function MainPage() {
 
   const handleCreateImage = () => {
     const mostRecentEntry = entries[0];
-    
+
     if (!mostRecentEntry) {
       alert('Please create and save your para entry first');
       return;
     }
 
     setShowSuccessModal(false);
-    
+
     setImageGenerationData({
       paraName: mostRecentEntry.paraName,
       experiences: mostRecentEntry.experiences,
@@ -160,8 +158,7 @@ function MainPage() {
   const canSave =
     location.area &&
     paraName &&
-    generatedContent &&
-    experiences.some(exp => exp.content.trim().length > 0);
+    generatedContent.trim().length > 0;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -177,8 +174,7 @@ function MainPage() {
           <div className="lg:sticky lg:top-20 h-auto lg:h-[calc(100vh-5rem)] overflow-y-auto scrollbar-container space-y-6">
             <LocationDetector />
             <ParaNameInput />
-            <ExperienceInputs />
-            <GeneratedContent />
+            <ParaDescription />
 
             <div className="flex space-x-4 lg:sticky bottom-0 bg-gray-100 p-4">
               <button
