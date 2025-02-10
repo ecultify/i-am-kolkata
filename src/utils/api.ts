@@ -54,7 +54,7 @@ const CONFIG = {
     dangerouslyAllowBrowser: true
   }),
   bgRemove: {
-    apiKey: 'f8HbJNxCzeaEJ5WQJM2CEv1u',
+    apiKey: 'CeXK4bDk7zCV8GDcSp4zKBd6',
     apiUrl: 'https://api.remove.bg/v1.0/removebg'
   },
   shotstack: {
@@ -74,6 +74,11 @@ const CONFIG = {
       'Accept': 'application/json',
       'Cache-Control': 'no-cache'
     }
+  },
+  segmind: {
+    apiKey: 'SG_443cbae187e6e208',
+    apiUrl: 'https://api.segmind.com/v1/bg-removal-v2',
+    enhanceUrl: 'https://api.segmind.com/v1/esrgan'
   }
 } as const;
 
@@ -155,38 +160,74 @@ const validateImageUrl = async (url: string): Promise<ImageValidationResult> => 
   }
 };
 
-// Complete replacement for removeBg function
-// Revert back to original working removeBg function
-export const removeBg = async (imageFile: File): Promise<string> => {
-  const formData = new FormData();
-  formData.append('image_file', imageFile);
-  formData.append('size', 'auto');
-  formData.append('format', 'auto');  // This ensures we get PNG with transparency
-
+// Add new enhance image function
+const enhanceImage = async (imageUrl: string): Promise<string> => {
   try {
+    // Fetch the image and convert to base64
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    const base64 = await new Promise<string>((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.readAsDataURL(blob);
+    });
+
+    // Extract base64 data without prefix
+    const base64Data = base64.split(',')[1];
+
+    // Call Segmind API for enhancement
+    const enhanceResponse = await fetch(CONFIG.segmind.enhanceUrl, {
+      method: 'POST',
+      headers: {
+        'x-api-key': CONFIG.segmind.apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        image: base64Data,
+        scale: 2
+      })
+    });
+
+    if (!enhanceResponse.ok) {
+      throw new Error(`Image enhancement failed: ${enhanceResponse.status}`);
+    }
+
+    const enhancedBlob = await enhanceResponse.blob();
+    return URL.createObjectURL(enhancedBlob);
+  } catch (error) {
+    console.error('Image enhancement error:', error);
+    throw error;
+  }
+};
+
+// Modify the existing removeBg function to include enhancement
+export const removeBg = async (imageFile: File): Promise<string> => {
+  try {
+    const formData = new FormData();
+    formData.append('image_file', imageFile);
+    formData.append('size', 'auto');
+    formData.append('format', 'png');
+
     const response = await fetch(CONFIG.bgRemove.apiUrl, {
       method: 'POST',
       headers: {
         'X-Api-Key': CONFIG.bgRemove.apiKey,
       },
-      body: formData,
+      body: formData
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Remove.bg API error:', errorText);
-      throw new APIError('Failed to remove background', {
-        status: response.status,
-        statusText: response.statusText,
-        error: errorText
-      });
+      throw new Error(`Remove.bg API error: ${response.status}`);
     }
 
     const blob = await response.blob();
-    return URL.createObjectURL(blob);
+    const bgRemovedUrl = URL.createObjectURL(blob);
+
+    // Enhance the background-removed image
+    return await enhanceImage(bgRemovedUrl);
   } catch (error) {
     console.error('Background removal error:', error);
-    throw error instanceof APIError ? error : new APIError('Background removal failed', { cause: error });
+    throw error;
   }
 };
 
